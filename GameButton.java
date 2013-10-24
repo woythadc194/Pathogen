@@ -3,62 +3,60 @@ import java.awt.event.*;
 import javax.swing.*;
 public class GameButton extends JButton{// implements ActionListener{
     
-    private int val;
-    private int x;
-    private int y;
+    private int zVal;
+    private int xVal;
+    private int yVal;
     private boolean clickbl;
     
+    public GameButton(ImageIcon icon){
+        super(icon);
+    }
 
-    public GameButton( int val, int x, int y ){
-        //super(new ImageIcon( "eCell.jpg" ) );
-        this.val=val;
-        this.x=x;
-        this.y=y;
+    public void setStats( int zVal, int xVal, int yVal ){
+        this.zVal=zVal;
+        this.xVal=xVal;
+        this.yVal=yVal;
         this.clickbl = true;
-//        setSize( 25, 25 );
     }
 
     public void increase(){
-        this.val++;
-        if( val==4 )
+        this.zVal++;
+        if( zVal==4 )
             clickbl = false;
     }
     
     public void increase( int i ){
-        this.val += i;
-        if( val>4 ){
-            val=4;
+        this.zVal += i;
+        if( zVal>4 ){
+            zVal=4;
             clickbl = false;
         }
     }
     
     public int getX(){
-        return this.x;
+        return this.xVal;
     }
     
     public int getY(){
-        return this.y;
+        return this.yVal;
     }
     
     public int getVal(){
-        return this.val;
+        return this.zVal;
     }
     
     public boolean clickable(){
         return this.clickbl;
     }
  
-        /*
-    @Override
+    /*@Override
     public void actionPerformed(ActionEvent e){
         //Execute when button is pressed
-        System.out.println(val);
-        if( val!=4 ){
-            if( currentSelectedVal >= val ){
+        System.out.println(zVal);
+        if( zVal!=4 ){
+            if( currentSelectedVal >= zVal ){
                 increase( currentSelectedVal );
             }
         }
-    }
-    */
-   
+    }*/
 }
