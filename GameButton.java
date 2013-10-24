@@ -197,6 +197,7 @@ public class GameButton extends JButton{// implements ActionListener{
                         b.setBackground(passBg);
                         b.setType(1);
                         b.spread( b.getXLocal(), b.getYLocal() );
+                        System.out.println("Spreading to enemy at (" + b.getXLocal() + ", " + b.getYLocal() + ")");
                     }
                 }else if(infType==0){
                     b.setBackground(passBg);
