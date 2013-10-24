@@ -1,9 +1,12 @@
+import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 public class GameButton extends JButton{// implements ActionListener{
     
     private static Color pTurn;
+    private static ArrayList<ArrayList<GameButton>> buttonList = new ArrayList<ArrayList<GameButton>>();
+    private static ArrayList<GameButton> seen;
     private int cellType;
     private int buttonSize;
     private int xLocal;
@@ -17,30 +20,29 @@ public class GameButton extends JButton{// implements ActionListener{
     private ImageIcon cBlueIcon;
     
     
-    public GameButton( int cellType, int buttonSize, int xLocal, int yLocal ){
+    public GameButton( int cellType, int buttonSize, int xLocal, int yLocal, ArrayList<ArrayList<GameButton>> buttonList ){
         super();
         this.xLocal=xLocal;
         this.yLocal=yLocal;
         this.buttonSize = buttonSize;
         this.cellType = cellType;
         this.pTurn = Color.RED;
+        this.buttonList = buttonList;
         makeCellIcons();
         this.setIcon( eIcon );
     }
     
-    public void setType( int i ){
-        this.cellType = i;
-        if( i==1 && pTurn==Color.RED)
-            this.setIcon( aRedIcon );
-        else if( i==1 )
-            this.setIcon( aBlueIcon );
+    private GameButton(){
+        ;
     }
     
-    public Color getPTurn(){
+    
+    
+    private Color getPTurn(){
         return this.pTurn;
     }
     
-    public int getCellType(){
+    private int getCellType(){
         return this.cellType;
     }
     
@@ -74,12 +76,20 @@ public class GameButton extends JButton{// implements ActionListener{
         cBlueIcon = new ImageIcon( img );
     }
     
-    public void printStats(){
+    private void printStats(){
         System.out.print( "(" + xLocal + ", " + yLocal + ") Type:" + cellType + " " );
         if( this.getBackground() == Color.RED )
             System.out.println( "RED" );
         else
             System.out.println( "BLUE" );
+    }
+    
+    private int getXLocal(){
+        return this.xLocal;
+    }
+    
+    private int getYLocal(){
+        return this.yLocal;
     }
     
     public void clicked(){
@@ -95,37 +105,137 @@ public class GameButton extends JButton{// implements ActionListener{
             }
         } else{
             if( getCellType() < 3 ){
-                incType();
+                setType(cellType+1);
+                seen.add(this);
+                spread( xLocal, yLocal ); //FIXME
                 incTurn();
                 printStats();
             }
         }
     }
     
-    public void incType(){
-        this.cellType++;
-        if( cellType == 1 )
+    private void spread( int parentX, int parentY){
+        ArrayList<GameButton> infected = new ArrayList<GameButton>();
+        GameButton bUp = new GameButton();
+        GameButton bDn = new GameButton();
+        GameButton bLf = new GameButton();
+        GameButton bRt = new GameButton();
+        try{ 
+            bUp = buttonList.get( parentX ).get( parentY-1 ); 
+            if(!seen.contains( bUp ) ){
+                seen.add( bUp );
+                infected.add( bUp );
+            }
+        } catch(Exception e){}
+        try{ 
+            bDn = buttonList.get( parentX ).get( parentY+1 ); 
+            if(!seen.contains( bDn ) ){
+                seen.add( bDn );
+                infected.add( bDn );
+            }
+        } catch(Exception e){}
+        try{ 
+            bLf = buttonList.get( parentX-1 ).get( parentY ); 
+            if(!seen.contains( bLf ) ){
+                seen.add( bLf );
+                infected.add( bLf );
+            }
+        } catch(Exception e){}
+        try{ 
+            bRt = buttonList.get( parentX+1 ).get( parentY ); 
+            if(!seen.contains( bRt ) ){
+                seen.add( bRt );
+                infected.add( bRt );
+            }
+        } catch(Exception e){}
+   
+        for(GameButton b : infected){
+            boolean cont = true;
+            int passType = this.getCellType()-1;
+            int infType = b.getCellType();
+            Color passBg = this.getBackground();
+            Color infBg = b.getBackground();
+            if(passType == 2){
+                if(infType == 2){
+                    if(passBg==infBg){
+                        b.setBackground(passBg);
+                        b.setType(3);
+                        b.spread( b.getXLocal(), b.getYLocal() );
+                    }else{
+                        b.setBackground(passBg);
+                        b.setType(2);
+                        b.spread( b.getXLocal(), b.getYLocal() );
+                    }
+                }else if(infType==1){
+                    if(passBg==infBg){
+                        b.setBackground(passBg);
+                        b.setType(2);                 
+                        b.spread( b.getXLocal(), b.getYLocal() );
+                    }else{
+                        b.setBackground(passBg);
+                        b.setType(2);
+                        b.spread( b.getXLocal(), b.getYLocal() );
+                    }
+                }else if(infType==0){
+                    b.setBackground(passBg);
+                    b.setType(2);
+                        b.spread( b.getXLocal(), b.getYLocal() );
+                }
+            }else if(passType==1){
+                if(infType == 2){
+                    if(passBg==infBg){
+                        ;
+                    }else{
+                        ;
+                    }
+                }else if(infType==1){
+                    if(passBg==infBg){
+                        b.setBackground(passBg);
+                        b.setType(2);
+                        b.spread( b.getXLocal(), b.getYLocal() );
+                    }else{
+                        b.setBackground(passBg);
+                        b.setType(1);
+                        b.spread( b.getXLocal(), b.getYLocal() );
+                    }
+                }else if(infType==0){
+                    b.setBackground(passBg);
+                    b.setType(1);
+                    cont = false;
+                }
+            }
+        }
+    }
+    
+    private String tostring(){
+        return "(" + xLocal + ", " + yLocal + ")" + cellType;
+    }
+    
+    private void setType(int x){
+        this.cellType = x;
+        if( x == 1 )
             if( pTurn == Color.blue )
                 this.setIcon( aBlueIcon );
             else
                 this.setIcon( aRedIcon );
-        if( cellType == 2 )
+        if( x == 2 )
             if( pTurn == Color.blue ){
                 this.setIcon( bBlueIcon );
             }else{
                 this.setIcon( bRedIcon );
             }
-        if( cellType == 3 )
+        if( x == 3 )
             if( pTurn == Color.blue )
                 this.setIcon( cBlueIcon );
             else
                 this.setIcon( cRedIcon );
     }
     
-    public void incTurn(){
+    private void incTurn(){
         if( pTurn == Color.RED )
             pTurn = Color.BLUE;
         else
             pTurn = Color.RED;
+        seen = new ArrayList<GameButton> ();
     }
 }
