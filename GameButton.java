@@ -3,15 +3,17 @@ import java.awt.event.*;
 import javax.swing.*;
 public class GameButton extends JButton{// implements ActionListener{
     
-    private int zVal;
+    private int cellType;
+/*
     private int xVal;
     private int yVal;
     private boolean clickbl;
-    
-    public GameButton(ImageIcon icon){
-        super(icon);
+*/  
+    public GameButton(int cellType){
+        super();
+        this.cellType = cellType;
     }
-
+}/*
     public void setStats( int zVal, int xVal, int yVal ){
         this.zVal=zVal;
         this.xVal=xVal;
@@ -58,5 +60,5 @@ public class GameButton extends JButton{// implements ActionListener{
                 increase( currentSelectedVal );
             }
         }
-    }*/
-}
+    }
+}*/
