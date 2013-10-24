@@ -3,7 +3,8 @@ import java.awt.event.*;
 import javax.swing.*;
 public class GameButton extends JButton{// implements ActionListener{
     
-    private int cellType;
+    public static Color pTurn;
+    public int cellType;
     private int buttonSize;
     private int xLocal;
     private int yLocal;
@@ -19,7 +20,9 @@ public class GameButton extends JButton{// implements ActionListener{
         this.yLocal=yLocal;
         this.buttonSize = buttonSize;
         this.cellType = cellType;
+        this.pTurn = Color.RED;
         makeCellIcons();
+        this.setIcon( eIcon );
     }
     
     private void makeCellIcons(){
@@ -42,7 +45,19 @@ public class GameButton extends JButton{// implements ActionListener{
     
     public void printStats(){
         String color = getBackground().toString();
-        System.out.println( "(" + xLocal + ", " + yLocal + ") " + color );
+        System.out.println( "(" + xLocal + ", " + yLocal + ") Type:" + cellType + " " + color );
+    }
+    
+    public void incType(){
+        this.cellType++;
+        if( cellType == 1 )
+            this.setIcon( aIcon );
+        if( cellType == 2 )
+            this.setIcon( bIcon );
+        if( cellType == 3 )
+            this.setIcon( cIcon );
+            
+        
     }
 }/*
     public void setStats( int zVal, int xVal, int yVal ){

@@ -42,29 +42,25 @@ public class Pathogen extends JFrame{
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout( new GridLayout( numCells, numCells, 1, 1 ) );
         
-        for( int x=0; x<numCells*2; x++ ){
+        for( int x=0; x<numCells; x++ ){
             ArrayList<JButton> list = new ArrayList<JButton>();
-            for( int y=0; y<numCells; y++ ){
-                /*
-                ImageIcon icon = new ImageIcon( "eCell.jpg" );
-                Image img = icon.getImage() ;  
-                Image newimg = img.getScaledInstance( buttonSize, buttonSize,  java.awt.Image.SCALE_FAST ) ;  
-                icon = new ImageIcon( newimg );
-                */
+            for( int y=0; y<numCells*2; y++ ){
+                System.out.println( x + ", " + y );
                 final GameButton button = new GameButton( 0, buttonSize, x, y );// eIcon );
                 button.setBackground( Color.black );
                 button.setPreferredSize( new Dimension( buttonSize, buttonSize ) );
                 button.setBorder( BorderFactory.createEmptyBorder() );
                 button.addActionListener(new ActionListener() {
- 
                     public void actionPerformed(ActionEvent e){
                         //Execute when button is pressed
-                        if(button.getBackground()==Color.black)
-                            button.setBackground(Color.red);
-                        else if(button.getBackground()==Color.red)
-                            button.setBackground(Color.blue);
-                        else if(button.getBackground()==Color.blue)
-                            button.setBackground(Color.green);
+                        if( button.cellType != 3 )
+                            button.incType();
+                        if( button.getBackground() == Color.black )
+                            button.setBackground( Color.red );
+                        else if( button.getBackground() == Color.red )
+                            button.setBackground( Color.blue );
+                        else if( button.getBackground() == Color.blue )
+                            button.setBackground( Color.green );
                         button.printStats();
                     }
                 });   
