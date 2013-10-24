@@ -4,14 +4,45 @@ import javax.swing.*;
 public class GameButton extends JButton{// implements ActionListener{
     
     private int cellType;
-/*
-    private int xVal;
-    private int yVal;
-    private boolean clickbl;
-*/  
-    public GameButton(int cellType){
+    private int buttonSize;
+    private int xLocal;
+    private int yLocal;
+    private ImageIcon eIcon;
+    private ImageIcon aIcon;
+    private ImageIcon bIcon;
+    private ImageIcon cIcon;
+    
+    
+    public GameButton( int cellType, int buttonSize, int xLocal, int yLocal ){
         super();
+        this.xLocal=xLocal;
+        this.yLocal=yLocal;
+        this.buttonSize = buttonSize;
         this.cellType = cellType;
+        makeCellIcons();
+    }
+    
+    private void makeCellIcons(){
+        eIcon = new ImageIcon( "eCell.jpg" );
+        Image img = eIcon.getImage().getScaledInstance( buttonSize, buttonSize,  java.awt.Image.SCALE_FAST ) ;  
+        eIcon = new ImageIcon( img );
+        
+        aIcon = new ImageIcon( "aCell.jpg" );
+        img = aIcon.getImage().getScaledInstance( buttonSize, buttonSize,  java.awt.Image.SCALE_FAST ) ;  
+        aIcon = new ImageIcon( img );
+        
+        bIcon = new ImageIcon( "bCell.jpg" );
+        img = bIcon.getImage().getScaledInstance( buttonSize, buttonSize,  java.awt.Image.SCALE_FAST ) ;  
+        bIcon = new ImageIcon( img );
+        
+        cIcon = new ImageIcon( "cCell.jpg" );
+        img = cIcon.getImage().getScaledInstance( buttonSize, buttonSize,  java.awt.Image.SCALE_FAST ) ;  
+        cIcon = new ImageIcon( img );
+    }
+    
+    public void printStats(){
+        String color = getBackground().toString();
+        System.out.println( "(" + xLocal + ", " + yLocal + ") " + color );
     }
 }/*
     public void setStats( int zVal, int xVal, int yVal ){

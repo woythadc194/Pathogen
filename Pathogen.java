@@ -11,11 +11,7 @@ public class Pathogen extends JFrame{
     private static int boardHeight;
     private static int currentSelectedVal;
     private static ArrayList<ArrayList<JButton>> buttonList;
-//    private static ImageIcon eIcon = new ImageIcon ( new ImageIcon( "eCell.jpg" ).getImage().getScaledInstance( buttonSize,buttonSize,java.awt.Image.SCALE_FAST ) );
-  //  private static ImageIcon aIcon = new ImageIcon ( new ImageIcon( "aCell.jpg" ).getImage().getScaledInstance( buttonSize,buttonSize,java.awt.Image.SCALE_FAST ) );
-   // private static ImageIcon bIcon = new ImageIcon ( new ImageIcon( "bCell.jpg" ).getImage().getScaledInstance( buttonSize,buttonSize,java.awt.Image.SCALE_FAST ) );
-   // private static ImageIcon cIcon = new ImageIcon ( new ImageIcon( "cCell.jpg" ).getImage().getScaledInstance( buttonSize,buttonSize,java.awt.Image.SCALE_FAST ) );
-    
+
     public static void main(String[]args){
         try{ numCells = Integer.parseInt( args[0] ); } catch ( Exception e ){}
         SwingUtilities.invokeLater(new Runnable() {
@@ -55,7 +51,7 @@ public class Pathogen extends JFrame{
                 Image newimg = img.getScaledInstance( buttonSize, buttonSize,  java.awt.Image.SCALE_FAST ) ;  
                 icon = new ImageIcon( newimg );
                 */
-                final GameButton button = new GameButton(0);// eIcon );
+                final GameButton button = new GameButton( 0, buttonSize, x, y );// eIcon );
                 button.setBackground( Color.black );
                 button.setPreferredSize( new Dimension( buttonSize, buttonSize ) );
                 button.setBorder( BorderFactory.createEmptyBorder() );
@@ -69,14 +65,13 @@ public class Pathogen extends JFrame{
                             button.setBackground(Color.blue);
                         else if(button.getBackground()==Color.blue)
                             button.setBackground(Color.green);
-//                        button.setIcon( aIcon );
-                        
+                        button.printStats();
                     }
                 });   
                 buttonPanel.add( button );
-  //              list.add(button);
+                //list.add(button);
             }
-//            buttonList.add(list);
+            //buttonList.add(list);
         }
         contentPane.add( buttonPanel );
         setContentPane( contentPane );
