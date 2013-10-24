@@ -45,7 +45,7 @@ public class Pathogen extends JFrame{
         for( int x=0; x<numCells; x++ ){
             ArrayList<JButton> list = new ArrayList<JButton>();
             for( int y=0; y<numCells*2; y++ ){
-                System.out.println( x + ", " + y );
+                //System.out.println( x + ", " + y );
                 final GameButton button = new GameButton( 0, buttonSize, x, y );// eIcon );
                 button.setBackground( Color.black );
                 button.setPreferredSize( new Dimension( buttonSize, buttonSize ) );
@@ -53,15 +53,7 @@ public class Pathogen extends JFrame{
                 button.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e){
                         //Execute when button is pressed
-                        if( button.cellType != 3 )
-                            button.incType();
-                        if( button.getBackground() == Color.black )
-                            button.setBackground( Color.red );
-                        else if( button.getBackground() == Color.red )
-                            button.setBackground( Color.blue );
-                        else if( button.getBackground() == Color.blue )
-                            button.setBackground( Color.green );
-                        button.printStats();
+                        button.clicked();
                     }
                 });   
                 buttonPanel.add( button );
