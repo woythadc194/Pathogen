@@ -5,7 +5,7 @@ import javax.swing.*;
 
 public class Pathogen extends JFrame{
     
-    private static int numCells = 5;
+    private static int numCells = 10;
     private static int buttonSize = 50;
     private static int boardWidth;
     private static int boardHeight;
@@ -27,7 +27,7 @@ public class Pathogen extends JFrame{
 
     private void createAndDisplayGUI(){
         ArrayList<ArrayList<GameButton>> buttonList = new ArrayList<ArrayList<GameButton>> ();
-        for( int x=0; x<numCells/**2*/; x++)
+        for( int x=0; x<numCells*2; x++)
             buttonList.add(new ArrayList<GameButton>());
     
         setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
@@ -47,8 +47,7 @@ public class Pathogen extends JFrame{
         
         for( int y=0; y<numCells; y++ ){
             ArrayList<JButton> list = new ArrayList<JButton>();
-            for( int x=0; x<numCells/**2*/; x++ ){
-                //System.out.println( x + ", " + y );
+            for( int x=0; x<numCells*2; x++ ){
                 final GameButton button = new GameButton( 0, buttonSize, x, y, buttonList );
                 button.setBackground( Color.black );
                 button.setPreferredSize( new Dimension( buttonSize, buttonSize ) );

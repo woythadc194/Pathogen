@@ -6,7 +6,7 @@ public class GameButton extends JButton{// implements ActionListener{
     
     private static Color pTurn;
     private static ArrayList<ArrayList<GameButton>> buttonList = new ArrayList<ArrayList<GameButton>>();
-    private static ArrayList<GameButton> seen;
+    private static ArrayList<GameButton> changed;
     private int cellType;
     private int buttonSize;
     private int xLocal;
@@ -31,12 +31,6 @@ public class GameButton extends JButton{// implements ActionListener{
         makeCellIcons();
         this.setIcon( eIcon );
     }
-    
-    private GameButton(){
-        ;
-    }
-    
-    
     
     private Color getPTurn(){
         return this.pTurn;
@@ -106,7 +100,7 @@ public class GameButton extends JButton{// implements ActionListener{
         } else{
             if( getCellType() < 3 ){
                 setType(cellType+1);
-                seen.add(this);
+                changed.add(this);
                 spread( xLocal, yLocal ); //FIXME
                 incTurn();
                 printStats();
@@ -114,95 +108,96 @@ public class GameButton extends JButton{// implements ActionListener{
         }
     }
     
-    private void spread( int parentX, int parentY){
+    private boolean spreadTest( int parentX, int parentY ){
+        System.out.print( "(" + parentX + ", " + parentY + ") " );
+        try{ 
+            GameButton b = buttonList.get( parentX ).get( parentY ); 
+            if( changed.contains(b) ){
+                System.out.println("Failed");
+                return false;
+            }
+            System.out.println("Passed");
+            return true;
+        } catch(Exception e){ 
+            return false;
+        }
+    }
+    
+    private void spread( int parentX, int parentY ){
         ArrayList<GameButton> infected = new ArrayList<GameButton>();
-        GameButton bUp = new GameButton();
-        GameButton bDn = new GameButton();
-        GameButton bLf = new GameButton();
-        GameButton bRt = new GameButton();
-        try{ 
-            bUp = buttonList.get( parentX ).get( parentY-1 ); 
-            if(!seen.contains( bUp ) ){
-                seen.add( bUp );
-                infected.add( bUp );
-            }
-        } catch(Exception e){}
-        try{ 
-            bDn = buttonList.get( parentX ).get( parentY+1 ); 
-            if(!seen.contains( bDn ) ){
-                seen.add( bDn );
-                infected.add( bDn );
-            }
-        } catch(Exception e){}
-        try{ 
-            bLf = buttonList.get( parentX-1 ).get( parentY ); 
-            if(!seen.contains( bLf ) ){
-                seen.add( bLf );
-                infected.add( bLf );
-            }
-        } catch(Exception e){}
-        try{ 
-            bRt = buttonList.get( parentX+1 ).get( parentY ); 
-            if(!seen.contains( bRt ) ){
-                seen.add( bRt );
-                infected.add( bRt );
-            }
-        } catch(Exception e){}
+
+        if( spreadTest( parentX, parentY-1 ) )
+            infected.add( buttonList.get( parentX ).get( parentY-1 ) );
+        if( spreadTest( parentX, parentY+1 ) ) 
+            infected.add( buttonList.get( parentX ).get( parentY+1 ) );
+        if( spreadTest( parentX-1, parentY ) ) 
+            infected.add( buttonList.get( parentX-1 ).get( parentY ) );
+        if( spreadTest( parentX+1, parentY ) ) 
+            infected.add( buttonList.get( parentX+1 ).get( parentY ) );
    
         for(GameButton b : infected){
-            boolean cont = true;
             int passType = this.getCellType()-1;
             int infType = b.getCellType();
             Color passBg = this.getBackground();
             Color infBg = b.getBackground();
-            if(passType == 2){
-                if(infType == 2){
-                    if(passBg==infBg){
-                        b.setBackground(passBg);
-                        b.setType(3);
+            if( passType == 2 ){
+                if( infType == 2 ){
+                    if( passBg==infBg ){                                        //Pass 2; Inf 2; Same Color
+                        b.setBackground( passBg );
+                        b.setType( 3 );
+                        changed.add( b );
                         b.spread( b.getXLocal(), b.getYLocal() );
-                    }else{
-                        b.setBackground(passBg);
-                        b.setType(2);
-                        b.spread( b.getXLocal(), b.getYLocal() );
-                    }
-                }else if(infType==1){
-                    if(passBg==infBg){
-                        b.setBackground(passBg);
-                        b.setType(2);                 
-                        b.spread( b.getXLocal(), b.getYLocal() );
-                    }else{
-                        b.setBackground(passBg);
-                        b.setType(2);
+                    }else{                                                      //Pass 2; Inf 2; Diff Color
+                        b.setBackground( passBg );
+                        b.setType( 2 );
+                        changed.add( b );
                         b.spread( b.getXLocal(), b.getYLocal() );
                     }
-                }else if(infType==0){
-                    b.setBackground(passBg);
-                    b.setType(2);
+                }else if( infType==1 ){
+                    if( passBg==infBg ){                                        //Pass 2; Inf 1; Same Color
+                        b.setBackground( passBg );
+                        b.setType( 2 );  
+                        changed.add( b );               
                         b.spread( b.getXLocal(), b.getYLocal() );
+                    }else{                                                      //Pass 2; Inf 1; Diff Color
+                        b.setBackground( passBg );
+                        b.setType( 2 );
+                        changed.add( b );
+                        b.spread( b.getXLocal(), b.getYLocal() );
+                    }
+                }else if( infType==0 ){
+                    b.setBackground( passBg );                                  //Pass 2; Inf 0; Either Color
+                    b.setType( 2 );
+                        changed.add( b );
+                    b.spread( b.getXLocal(), b.getYLocal() );
                 }
-            }else if(passType==1){
-                if(infType == 2){
-                    if(passBg==infBg){
+            }else if( passType==1 ){
+                if( infType == 2 ){                                                 
+                    if( passBg==infBg ){                                        //Pass 1; Inf 2; Same Color;
                         ;
-                    }else{
+                    }else{                                                      //Pass 1; Inf 2; Diff Color;
                         ;
                     }
-                }else if(infType==1){
-                    if(passBg==infBg){
-                        b.setBackground(passBg);
-                        b.setType(2);
+                }else if( infType==1 ){
+                    if( passBg==infBg ){                                        //Pass 1; Inf 1; Same Color;
+                        b.setBackground( passBg );
+                        b.setType( 2 );
+                        changed.add( b );
                         b.spread( b.getXLocal(), b.getYLocal() );
-                    }else{
-                        b.setBackground(passBg);
-                        b.setType(1);
+                    }else{                                                      //Pass 1; Inf 1; Diff Color;
+                        b.setBackground( passBg );
+                        b.setType( 1 );
+                        changed.add( b );
                         b.spread( b.getXLocal(), b.getYLocal() );
-                        System.out.println("Spreading to enemy at (" + b.getXLocal() + ", " + b.getYLocal() + ")");
+                        System.out.println("Spreading to enemy at (" 
+                            + b.getXLocal() + ", " + b.getYLocal() + ")" );
                     }
-                }else if(infType==0){
-                    b.setBackground(passBg);
-                    b.setType(1);
-                    cont = false;
+                }else if( infType==0 ){                                         //Pass 1; Inf 0; Either Color;
+                    System.out.println("Empty Cell at (" + b.getXLocal() 
+                        + ", " + b.getYLocal() + ")" );
+                    b.setBackground( passBg );
+                    b.setType( 1 );
+                    changed.add( b );
                 }
             }
         }
@@ -237,6 +232,6 @@ public class GameButton extends JButton{// implements ActionListener{
             pTurn = Color.BLUE;
         else
             pTurn = Color.RED;
-        seen = new ArrayList<GameButton> ();
+        changed = new ArrayList<GameButton> ();
     }
 }
