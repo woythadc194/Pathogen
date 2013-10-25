@@ -48,7 +48,7 @@ public class Pathogen extends JFrame{
         for( int y=0; y<numCells; y++ ){
             ArrayList<JButton> list = new ArrayList<JButton>();
             for( int x=0; x<numCells*2; x++ ){
-                final GameButton button = new GameButton( 0, buttonSize, x, y, buttonList );
+                final GameButton button = new GameButton( 0, buttonSize, x, y, buttonList, numCells );
                 button.setBackground( Color.black );
                 button.setPreferredSize( new Dimension( buttonSize, buttonSize ) );
                 button.setBorder( BorderFactory.createEmptyBorder() );

@@ -122,7 +122,7 @@ public class GameButton extends JButton{// implements ActionListener{
                 setType(cellType+1);
                 changed.add(this);
                 printStats();
-                spread( xLocal, yLocal, false ); //FIXME
+                spread( xLocal, yLocal ); //FIXME
                 incTurn();
 
             }
@@ -144,7 +144,7 @@ public class GameButton extends JButton{// implements ActionListener{
         }
     }
     
-    private void spread( int parentX, int parentY, boolean lastItr ){
+    private void spread( int parentX, int parentY ){
         ArrayList<GameButton> infected = new ArrayList<GameButton>();
 
         if( spreadTest( parentX, parentY-1 ) )
@@ -168,15 +168,13 @@ public class GameButton extends JButton{// implements ActionListener{
                         b.setType( 3 );
                         changed.add( b );
                         printState();
-                        if(!lastItr)
-                            b.spread( b.getXLocal(), b.getYLocal(), false );
+                        b.spread( b.getXLocal(), b.getYLocal() );
                     }else{                                                      //Pass 2; Inf 2; Diff Color
                         b.setBackground( passBg );
                         b.setType( 2 );
                         changed.add( b );
                         printState();
-                        if(!lastItr)
-                           b.spread( b.getXLocal(), b.getYLocal(), false );
+                       b.spread( b.getXLocal(), b.getYLocal() );
                     }
                 }else if( infType==1 ){
                     if( passBg==infBg ){                                        //Pass 2; Inf 1; Same Color
@@ -184,23 +182,20 @@ public class GameButton extends JButton{// implements ActionListener{
                         b.setType( 2 );  
                         changed.add( b );               
                         printState();
-                        if(!lastItr)
-                            b.spread( b.getXLocal(), b.getYLocal(), false );
+                        b.spread( b.getXLocal(), b.getYLocal() );
                     }else{                                                      //Pass 2; Inf 1; Diff Color
                         b.setBackground( passBg );
                         b.setType( 2 );
                         changed.add( b );
                         printState();
-                        if(!lastItr)
-                            b.spread( b.getXLocal(), b.getYLocal(), false );
+                        b.spread( b.getXLocal(), b.getYLocal() );
                     }
                 }else if( infType==0 ){
                     b.setBackground( passBg );                                  //Pass 2; Inf 0; Either Color
                     b.setType( 2 );
                     changed.add( b );
                     printState();
-                    if(!lastItr)
-                        b.spread( b.getXLocal(), b.getYLocal(), false );
+                    b.spread( b.getXLocal(), b.getYLocal() );
                 }
             }else if( passType==1 ){
                 if( infType == 2 ){                                                 
@@ -215,15 +210,13 @@ public class GameButton extends JButton{// implements ActionListener{
                         b.setType( 2 );
                         changed.add( b );
                         printState();
-                        if(!lastItr)
-                            b.spread( b.getXLocal(), b.getYLocal(), false );
+                        b.spread( b.getXLocal(), b.getYLocal() );
                     }else{                                                      //Pass 1; Inf 1; Diff Color;
                         b.setBackground( passBg );
                         b.setType( 1 );
                         changed.add( b );
                         printState();                
-                        if(!lastItr)
-                            b.spread( b.getXLocal(), b.getYLocal(), false );
+                        b.spread( b.getXLocal(), b.getYLocal() );
 
 //                        System.out.println("Spreading to enemy at (" + b.getXLocal() + ", " + b.getYLocal() + ")" );
                     }
@@ -233,8 +226,7 @@ public class GameButton extends JButton{// implements ActionListener{
                     b.setType( 1 );
                     changed.add( b );
                     printState();
-                    if(!lastItr)
-                        b.spread( b.getXLocal(), b.getYLocal(), true );
+                    b.spread( b.getXLocal(), b.getYLocal() );
                 }
             }else if( passType == 0 ){
                 if( infType == 2 ){
@@ -251,8 +243,7 @@ public class GameButton extends JButton{// implements ActionListener{
                         b.setType( 1 );
                         changed.add( b );
                         printState();
-                        if(!lastItr)
-                            b.spread( b.getXLocal(), b.getYLocal(), false );
+                        b.spread( b.getXLocal(), b.getYLocal() );
                     }
                 } else if( infType == 0 ){
                     if( passBg==infBg ){                                        //Pass 0; Inf 0; Either Color;
@@ -260,8 +251,7 @@ public class GameButton extends JButton{// implements ActionListener{
                         b.setType( 1 );
                         changed.add( b );
                         printState();
-                        if(!lastItr)
-                            b.spread( b.getXLocal(), b.getYLocal(), true );
+                        b.spread( b.getXLocal(), b.getYLocal() );
                     }
                 }
             }
