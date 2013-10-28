@@ -65,7 +65,7 @@ public class Pathogen extends JFrame{
         contentPane.add( buttonPanel );
         setContentPane( contentPane );
         pack();
-        setLocationByPlatform( true );
+        setLocationByPlatform( false );
         setVisible( true );
         setResizable( false );
     }
