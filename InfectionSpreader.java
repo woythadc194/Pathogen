@@ -87,7 +87,7 @@ public class InfectionSpreader{
                 setSolid( child );
                 getInfection( child );
             }else if( parentType == 3 ){
-                set3( child );
+                setSolid( child );
                 getInfection( child );
             }else if( parentType == 2 ){
                 ;
@@ -125,6 +125,8 @@ public class InfectionSpreader{
     }
     
     private void setSolid( GameButton b ){
+        b.setBackground( startButton.getBackground() );
+        b.setType(4);
         infected.add( b );
     }
     

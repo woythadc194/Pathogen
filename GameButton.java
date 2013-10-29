@@ -77,11 +77,9 @@ public class GameButton extends JButton{// implements ActionListener{
                 this.setBackground( pTurn );
                 incTurn();
                 printStats();
-            } else {
-                        
             }
-        } else{
-            if( getType() < 3 ){
+        } else {
+            if( getType() < 4 ){
                 new InfectionSpreader(buttonList, this).getInfection();
                 printStats();
                 incTurn();
@@ -110,6 +108,11 @@ public class GameButton extends JButton{// implements ActionListener{
                 this.setIcon( new ButtonIcon( buttonSize ).getIcon( "cBlueCell" ) );
             else
                 this.setIcon( new ButtonIcon( buttonSize ).getIcon( "cRedCell" ) );
+        if( x == 4 )
+            if( pTurn == Color.blue )
+                this.setIcon( new ButtonIcon( buttonSize ).getIcon( "solidBlueCell" ) );
+            else
+                this.setIcon( new ButtonIcon( buttonSize ).getIcon( "solidRedCell" ) );
     }
     
     private Color getTurn(){

@@ -6,7 +6,7 @@ import javax.swing.*;
 public class Pathogen extends JFrame{
     
     private static int numCells = 10;
-    private static int buttonSize = 50;
+    private static int buttonSize = 25;
     private static int boardWidth;
     private static int boardHeight;
     private static int currentSelectedVal;
