@@ -5,44 +5,44 @@ import javax.swing.*;
 
 public class GameButton extends JButton{
     
-    private static Color pTurn;
     private static ArrayList<ArrayList<GameButton>> buttonList = new ArrayList<ArrayList<GameButton>>();
     private static ArrayList<GameButton> changed;
     private static int nButtons;
+    private static TurnFlag flag;
     private int cellType;
     private int buttonSize;
     private int xLocal;
     private int yLocal;
     public boolean changeable;
     
-    public GameButton( int cellType, int buttonSize, int xLocal, int yLocal, ArrayList<ArrayList<GameButton>> buttonList, int nButtons ){
+    public GameButton( int cellType, int buttonSize, int xLocal, int yLocal, ArrayList<ArrayList<GameButton>> buttonList, int nButtons, TurnFlag flag ){
         super();
         this.changeable = true;
         this.xLocal=xLocal;
         this.yLocal=yLocal;
         this.buttonSize = buttonSize;
         this.cellType = cellType;
-        this.pTurn = Color.RED;
+        this.flag = flag;
         this.buttonList = buttonList;
         this.nButtons = nButtons;
         this.setIcon( new ButtonIcon( buttonSize ).getIcon( "eCell" ) );
-    }
-    
-    private Color getPTurn(){
-        return this.pTurn;
+        this.setBackground( Color.black );
+        this.setPreferredSize( new Dimension( buttonSize, buttonSize ) );
+        this.setBorder( BorderFactory.createEmptyBorder() );
     }
     
     public int getType(){
         return this.cellType;
     }
     
-    /*private void printStats(){
+    private void printStats(){
         System.out.print( "(" + xLocal + ", " + yLocal + ") Type:" + cellType + " " );
         if( this.getBackground() == Color.RED )
             System.out.println( "RED" );
         else
             System.out.println( "BLUE" );
-    }*/
+    }
+    
     private void printState(){
         for(int i=0; i<nButtons*2; i++)
             System.out.print("=");
@@ -73,18 +73,21 @@ public class GameButton extends JButton{
     
     public void clicked(){
         Color bgColor = this.getBackground();
+        Color pTurn = flag.getTurn();
         if( bgColor != pTurn ){
             if( bgColor == Color.BLACK ){
                 setType(1);
                 this.setBackground( pTurn );
-                incTurn();
+                changed = new ArrayList<GameButton> ();
+                flag.incTurn();
                 //printStats();
             }
         } else {
             if( getType() < 4 ){
                 new InfectionSpreader(buttonList, this).getInfection();
+                changed = new ArrayList<GameButton> ();
+                flag.incTurn();
                 //printStats();
-                incTurn();
             }
         }
     }
@@ -95,6 +98,7 @@ public class GameButton extends JButton{
     
     public void setType(int x){
         this.cellType = x;
+        Color pTurn = flag.getTurn();
         if( x == 1 )
             if( pTurn == Color.blue )
                 this.setIcon( new ButtonIcon( buttonSize ).getIcon( "aBlueCell" ) );
@@ -115,17 +119,5 @@ public class GameButton extends JButton{
                 this.setIcon( new ButtonIcon( buttonSize ).getIcon( "solidBlueCell" ) );
             else
                 this.setIcon( new ButtonIcon( buttonSize ).getIcon( "solidRedCell" ) );
-    }
-    
-    private Color getTurn(){
-        return this.pTurn;
-    }
-    
-    private void incTurn(){
-        if( pTurn == Color.RED )
-            pTurn = Color.BLUE;
-        else
-            pTurn = Color.RED;
-        changed = new ArrayList<GameButton> ();
     }
 }

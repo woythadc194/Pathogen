@@ -7,8 +7,6 @@ public class Pathogen extends JFrame{
     
     private static int numCells = 10;
     private static int buttonSize = 50;
-    private static int boardWidth;
-    private static int boardHeight;
     private static int currentSelectedVal;
     private static ArrayList<ArrayList<GameButton>> buttonList;
 
@@ -24,6 +22,12 @@ public class Pathogen extends JFrame{
     public Pathogen(){
         super( "Pathogen" );
     }
+    
+    private int getTypeButtonSpace(){
+        int boardHeight = ( ( numCells * buttonSize ) + ( numCells+1 ) );
+        int whiteSpace = boardHeight - ( buttonSize * 3 );
+        return ( whiteSpace / 4 );
+    }
 
     private void createAndDisplayGUI(){
         ArrayList<ArrayList<GameButton>> buttonList = new ArrayList<ArrayList<GameButton>> ();
@@ -36,23 +40,37 @@ public class Pathogen extends JFrame{
         contentPane.setLayout( new FlowLayout( FlowLayout.LEFT ) );
         contentPane.setBorder( BorderFactory.createLineBorder( Color.DARK_GRAY, 2 ) );
         
+        
+        
         JPanel typePane = new JPanel();
-        typePane.setLayout( new FlowLayout( FlowLayout.LEFT ) );
+        ArrayList<TypeSelectorButton> typeList = new ArrayList<TypeSelectorButton>();
+        typePane.setLayout( new GridLayout( 3, 1, 0, getTypeButtonSpace() ) );
         contentPane.setBorder( BorderFactory.createLineBorder( Color.DARK_GRAY, 2 ) );
-        JButton b = new JButton("eCell.jpg");
-        typePane.add(b);
+
+        TypeSelectorButton b = new TypeSelectorButton("aRedCell", buttonSize, 1);
+        typePane.add( b );
+        typeList.add( b );
+        
+        b = new TypeSelectorButton("bRedCell", buttonSize, 2);
+        typePane.add( b );
+        typeList.add( b );
+        
+        b = new TypeSelectorButton("cRedCell", buttonSize, 3);
+        typePane.add( b );
+        typeList.add( b );
+        
         contentPane.add( typePane );
+        
+        
         
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout( new GridLayout( numCells, numCells, 1, 1 ) );
         
+        TurnFlag flag = new TurnFlag( Color.RED, typeList );
         for( int y=0; y<numCells; y++ ){
             ArrayList<JButton> list = new ArrayList<JButton>();
             for( int x=0; x<numCells*2; x++ ){
-                final GameButton button = new GameButton( 0, buttonSize, x, y, buttonList, numCells );
-                button.setBackground( Color.black );
-                button.setPreferredSize( new Dimension( buttonSize, buttonSize ) );
-                button.setBorder( BorderFactory.createEmptyBorder() );
+                final GameButton button = new GameButton( 0, buttonSize, x, y, buttonList, numCells, flag );
                 button.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e){
                         //Execute when button is pressed
