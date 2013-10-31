@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class InfectionSpreader2{
+public class InfectionSpreader3{
 
     private static ArrayList<ArrayList<GameButton>> buttonList;
     private static ArrayList<GameButton> changeTo1;
@@ -14,7 +14,7 @@ public class InfectionSpreader2{
     private static ArrayList<GameButton> infected;
     private static GameButton startButton;
 
-    public InfectionSpreader2( ArrayList<ArrayList<GameButton>> buttonList, GameButton startButton ){
+    public InfectionSpreader3( ArrayList<ArrayList<GameButton>> buttonList, GameButton startButton ){
         this.buttonList = buttonList;
         this.startButton = startButton;
         infected =  new ArrayList<GameButton> ();

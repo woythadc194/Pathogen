@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class GameButton extends JButton{// implements ActionListener{
+public class GameButton extends JButton{
     
     private static Color pTurn;
     private static ArrayList<ArrayList<GameButton>> buttonList = new ArrayList<ArrayList<GameButton>>();
@@ -13,9 +13,11 @@ public class GameButton extends JButton{// implements ActionListener{
     private int buttonSize;
     private int xLocal;
     private int yLocal;
+    public boolean changeable;
     
     public GameButton( int cellType, int buttonSize, int xLocal, int yLocal, ArrayList<ArrayList<GameButton>> buttonList, int nButtons ){
         super();
+        this.changeable = true;
         this.xLocal=xLocal;
         this.yLocal=yLocal;
         this.buttonSize = buttonSize;
@@ -34,13 +36,13 @@ public class GameButton extends JButton{// implements ActionListener{
         return this.cellType;
     }
     
-    private void printStats(){
+    /*private void printStats(){
         System.out.print( "(" + xLocal + ", " + yLocal + ") Type:" + cellType + " " );
         if( this.getBackground() == Color.RED )
             System.out.println( "RED" );
         else
             System.out.println( "BLUE" );
-    }
+    }*/
     private void printState(){
         for(int i=0; i<nButtons*2; i++)
             System.out.print("=");
@@ -76,12 +78,12 @@ public class GameButton extends JButton{// implements ActionListener{
                 setType(1);
                 this.setBackground( pTurn );
                 incTurn();
-                printStats();
+                //printStats();
             }
         } else {
             if( getType() < 4 ){
                 new InfectionSpreader(buttonList, this).getInfection();
-                printStats();
+                //printStats();
                 incTurn();
             }
         }

@@ -15,6 +15,13 @@ public class InfectionSpreader{
         targets = new ArrayList<GameButton>();
         infected = new ArrayList<GameButton>();
         this.startButton = startButton;
+        setChangeable();
+    }
+    
+    private static void setChangeable(){
+        for( ArrayList<GameButton> list : buttonList )
+            for( GameButton b : list )
+                b.changeable = true;
     }
 
     public void getInfection(){
@@ -73,74 +80,80 @@ public class InfectionSpreader{
         Color childBg = child.getBackground();
 
         if( childType == 4 ){
-            if( parentType == 4 ){
+            if( parentType == 4 && child.changeable ){
                     ;
-            }else if( parentType == 3 ){
+            }else if( parentType == 3 && child.changeable ){
                     ;
-            }else if( parentType == 2 ){
+            }else if( parentType == 2 && child.changeable ){
                     ;
-            }else if( parentType == 1 ){
+            }else if( parentType == 1 && child.changeable ){
                     ;
             }
         }else if( childType == 3 ){
-            if( parentType == 4 ){
+            if( parentType == 4 && child.changeable ){
                 setSolid( child );
                 getInfection( child );
-            }else if( parentType == 3 ){
+            }else if( parentType == 3 && child.changeable ){
                 setSolid( child );
                 getInfection( child );
-            }else if( parentType == 2 ){
+            }else if( parentType == 2 && child.changeable ){
                 ;
-            }else if( parentType == 1 ){
+            }else if( parentType == 1 && child.changeable ){
                 ;
             }
         }else if( childType == 2 ){
-            if( parentType == 4 ){
+            if( parentType == 4 && child.changeable ){
                 set3( child );
                 getInfection( child );
-            }else if( parentType == 3 ){
+            }else if( parentType == 3 && child.changeable ){
                 set3( child );
                 getInfection( child );
-            }else if( parentType == 2 ){
+            }else if( parentType == 2 && child.changeable ){
                 ;
-            }else if( parentType == 1 ){
+            }else if( parentType == 1 && child.changeable ){
                 ;
             }
         }else if( childType == 1 ){
-            if( parentType == 4 ){
+            if( parentType == 4 && child.changeable ){
+                set3( child );
+                getInfection( child );
+            }else if( parentType == 3 && child.changeable ){
                 set2( child );
                 getInfection( child );
-            }else if( parentType == 3 ){
+            }else if( parentType == 2 && child.changeable ){
                 set2( child );
                 getInfection( child );
-            }else if( parentType == 2 ){
-                set2( child );
-                getInfection( child );
-            }else if( parentType == 1 ){
+            }else if( parentType == 1 && child.changeable ){
                 ;
             }
-        }else if( childType == 0 ){
+        }else if( childType == 0 && child.changeable ){
             set1( child );
         }
     }
     
     private void setSolid( GameButton b ){
+        b.changeable = false;
         b.setBackground( startButton.getBackground() );
         b.setType(4);
         infected.add( b );
     }
     
     private void set3( GameButton b ){
+        b.changeable = false;
         b.setBackground( startButton.getBackground() );
         b.setType(3);
         infected.add( b );
     }
+    
     private void set2( GameButton b ){
+        b.changeable = false;
         b.setBackground( startButton.getBackground() );
         b.setType(2);
         infected.add( b );
     }
+    
     private void set1( GameButton b ){
+        b.changeable = false;
         b.setBackground( startButton.getBackground() );
         b.setType(1);
         infected.add( b );

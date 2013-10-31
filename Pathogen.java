@@ -6,7 +6,7 @@ import javax.swing.*;
 public class Pathogen extends JFrame{
     
     private static int numCells = 10;
-    private static int buttonSize = 25;
+    private static int buttonSize = 50;
     private static int boardWidth;
     private static int boardHeight;
     private static int currentSelectedVal;
@@ -40,7 +40,8 @@ public class Pathogen extends JFrame{
         typePane.setLayout( new FlowLayout( FlowLayout.LEFT ) );
         contentPane.setBorder( BorderFactory.createLineBorder( Color.DARK_GRAY, 2 ) );
         JButton b = new JButton("eCell.jpg");
-        
+        typePane.add(b);
+        contentPane.add( typePane );
         
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout( new GridLayout( numCells, numCells, 1, 1 ) );
