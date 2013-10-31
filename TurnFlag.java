@@ -6,11 +6,20 @@ import javax.swing.*;
 public class TurnFlag{
     
     private static Color turn;
-    private static ArrayList<TypeSelectorButton> list;
+    private static ArrayList<TypeSelectorButton> typeList;
+    private static ArrayList<ArrayList<GameButton>> buttonList;
+    private static int numButtons;
+    private static JFrame frame;
     
-    public TurnFlag( Color startColor, ArrayList<TypeSelectorButton> list ){
+    public TurnFlag( Color startColor, ArrayList<TypeSelectorButton> typeList, JFrame frame ){
         this.turn = startColor;
-        this.list = list;  
+        this.typeList = typeList;
+        this.frame = frame;
+    }
+    
+    public void setButtonList( ArrayList<ArrayList<GameButton>> buttonList, int numButtons ){
+        this.numButtons = numButtons;
+        this.buttonList = buttonList;
     }
     
     public Color getTurn(){
@@ -26,7 +35,22 @@ public class TurnFlag{
             turn = Color.RED;
             clr = "Red";
         }
-        for( TypeSelectorButton b : list )
+        for( TypeSelectorButton b : typeList )
             b.setIcon( new ButtonIcon( b.getButtonSize() ).getIcon( "" + b.getIconType() + clr + "Cell" ) );
+        checkWin();
+    }
+    
+    private void checkWin(){
+        int numBlue = 0, numRed = 0;
+        for( ArrayList<GameButton> list : buttonList )
+            for( GameButton b : list )
+                if( b.getBackground() == Color.RED )
+                    numRed++;
+                else if( b.getBackground() == Color.BLUE )
+                    numBlue++;
+        if( numRed + numBlue != numButtons )
+            return;
+        JOptionPane.showMessageDialog(frame, ( "RED: " + numRed + "; BLUE: " + numBlue ), "GAME OVER", JOptionPane.PLAIN_MESSAGE);
+        System.exit(0);
     }
 }
