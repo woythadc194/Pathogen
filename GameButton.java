@@ -92,6 +92,7 @@ public class GameButton extends JButton{
         Color pTurn = flag.getTurn();
         if( bgColor != pTurn ){
             if( bgColor == Color.BLACK ){
+                flag.setPreviousTurn();
                 setType(1);
                 this.setBackground( pTurn );
                 changed = new ArrayList<GameButton> ();
@@ -100,6 +101,7 @@ public class GameButton extends JButton{
             }
         } else {
             if( getType() < 4 ){
+                flag.setPreviousTurn();
                 new InfectionSpreader(buttonList, this).getInfection();
                 changed = new ArrayList<GameButton> ();
                 flag.incTurn();

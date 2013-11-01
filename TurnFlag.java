@@ -33,7 +33,7 @@ public class TurnFlag{
         incTurn();
     }
     
-    private void setPreviousTurn(){
+    public void setPreviousTurn(){
         this.buttonListPrevious = new ArrayList<ArrayList<GameButton>> ();
         for( ArrayList<GameButton> list : buttonList ){
             ArrayList<GameButton> listCopy = new ArrayList<GameButton>();
@@ -44,7 +44,6 @@ public class TurnFlag{
     }
     
     public void incTurn(){
-        setPreviousTurn();
         String clr = "";
         if( turn == Color.RED ){
             turn = Color.BLUE;
