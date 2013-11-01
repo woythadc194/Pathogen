@@ -31,6 +31,22 @@ public class GameButton extends JButton{
         this.setBorder( BorderFactory.createEmptyBorder() );
     }
     
+    public GameButton( GameButton b ){
+        super();
+        this.changeable = b.changeable;
+        this.xLocal=b.xLocal;
+        this.yLocal=b.yLocal;
+        this.buttonSize = b.buttonSize;
+        this.cellType = b.cellType;
+        this.flag = b.flag;
+        this.buttonList = b.buttonList;
+        this.nButtons = b.nButtons;
+        this.setIcon( b.getIcon() );
+        this.setBackground( b.getBackground() );
+        this.setPreferredSize( new Dimension( b.buttonSize, b.buttonSize ) );
+        this.setBorder( BorderFactory.createEmptyBorder() );
+    }
+    
     public int getType(){
         return this.cellType;
     }

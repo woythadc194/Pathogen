@@ -6,8 +6,10 @@ import javax.swing.*;
 public class TurnFlag{
     
     private static Color turn;
+    
     private static ArrayList<TypeSelectorButton> typeList;
     private static ArrayList<ArrayList<GameButton>> buttonList;
+    private static ArrayList<ArrayList<GameButton>> buttonListPrevious;
     private static int numButtons;
     private static JFrame frame;
     
@@ -26,7 +28,23 @@ public class TurnFlag{
         return turn;
     }
     
+    public void undoTurn(){
+        buttonList = buttonListPrevious;
+        incTurn();
+    }
+    
+    private void setPreviousTurn(){
+        this.buttonListPrevious = new ArrayList<ArrayList<GameButton>> ();
+        for( ArrayList<GameButton> list : buttonList ){
+            ArrayList<GameButton> listCopy = new ArrayList<GameButton>();
+            for( GameButton b : list )
+                listCopy.add( new GameButton( b ) );
+            buttonListPrevious.add( list );
+        }
+    }
+    
     public void incTurn(){
+        setPreviousTurn();
         String clr = "";
         if( turn == Color.RED ){
             turn = Color.BLUE;
