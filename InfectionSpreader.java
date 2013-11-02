@@ -66,7 +66,71 @@ public class InfectionSpreader{
         int childType = child.getType();
         Color parentBg = parent.getBackground();
         Color childBg = child.getBackground();
-
+        if( parentType == 4 ){
+            if( childType == 3 ){
+                if( parentBg == childBg ){
+                    set4( child );
+                    getInfection( child );
+                } else{
+                    set4( child );
+                    getInfection( child );
+                }
+            } else if( childType == 2 ){
+                if( parentBg == childBg ){
+                    set3( child );
+                    getInfection( child );
+                } else{
+                    set3( child );
+                    getInfection( child );
+                }
+            } else if( childType == 1 ){
+                if( parentBg == childBg ){
+                    set3( child );
+                    getInfection( child );
+                } else{
+                    set3( child );
+                    getInfection( child );
+                }
+            } else if( childType == 0 ){
+                set3( child );
+                getInfection( child );
+            }
+        } else if( parentType == 3 ){
+            if( childType == 2 ){
+                if( parentBg == childBg ){
+                    set3( child );
+                    getInfection( child );
+                } else{
+                    set3( child );
+                    getInfection( child );
+                }
+            } else if( childType == 1 ){
+                if( parentBg == childBg ){
+                    set2( child );
+                    getInfection( child );
+                } else{
+                    set2( child );
+                    getInfection( child );
+                }
+            } else if( childType == 0 ){
+                set2( child );
+                getInfection( child );
+            
+            }
+        } else if( parentType == 2 ){
+            if( childType == 1 ){
+                if( parentBg == childBg ){
+                    set2( child );
+                    getInfection( child );
+                } else{
+                    set2( child );
+                    getInfection( child );
+                }
+            } else if( childType == 0 ){
+                set1( child );
+            }
+        }
+/*        
         if( childType == 4 ){
             if( parentType == 4 && child.changeable ){
                     ;
@@ -79,10 +143,10 @@ public class InfectionSpreader{
             }
         }else if( childType == 3 ){
             if( parentType == 4 && child.changeable ){
-                setSolid( child );
+                set4( child );
                 getInfection( child );
             }else if( parentType == 3 && child.changeable ){
-                setSolid( child );
+                set4( child );
                 getInfection( child );
             }else if( parentType == 2 && child.changeable ){
                 ;
@@ -117,9 +181,11 @@ public class InfectionSpreader{
         }else if( childType == 0 && child.changeable ){
             set1( child );
         }
+        
+        */
     }
     
-    private void setSolid( GameButton b ){
+    private void set4( GameButton b ){
         b.changeable = false;
         b.setBackground( startButton.getBackground() );
         b.setType(4);
