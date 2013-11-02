@@ -8,7 +8,8 @@ public class Pathogen extends JFrame{
     private static int numButtons = 12;
     private static int buttonSize = 50;
     private static int currentSelectedVal;
-    private static ArrayList<ArrayList<GameButton>> buttonList;
+    private static GameButton[][] buttonArray;
+
 
     public static void main(String[]args){
         try{ numButtons = Integer.parseInt( args[0] ); } catch ( Exception e ){}
@@ -30,9 +31,7 @@ public class Pathogen extends JFrame{
     }
 
     private void createAndDisplayGUI(){
-        ArrayList<ArrayList<GameButton>> buttonList = new ArrayList<ArrayList<GameButton>> ();
-        for( int x=0; x<numButtons; x++)
-            buttonList.add(new ArrayList<GameButton>());
+        buttonArray = new GameButton[numButtons*2][numButtons];
     
         setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
 
@@ -55,15 +54,16 @@ public class Pathogen extends JFrame{
         typeList.add( b );
         contentPane.add( typePane );
         
-        final TurnFlag flag = new TurnFlag( Color.RED, typeList, this );
+        TurnFlag flag = new TurnFlag( Color.RED, typeList, this );
         
         JPanel undoPane = new JPanel();
         undoPane.setLayout( new GridLayout( 1, 1, 1, 1 ) );
         undoPane.setBorder( BorderFactory.createLineBorder( Color.DARK_GRAY, 2 ) );
-        JButton undoButton = new JButton("UNDO");
+        final UndoButton undoButton = new UndoButton("UNDO", this, buttonArray);
         undoButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                flag.undoTurn();
+                //Execute when button is pressed
+                undoButton.clicked();
             }
         }); 
         undoPane.add( undoButton );
@@ -71,12 +71,10 @@ public class Pathogen extends JFrame{
         
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout( new GridLayout( numButtons, numButtons, 1, 1 ) );
-        
-
         for( int y=0; y<numButtons; y++ ){
             ArrayList<JButton> list = new ArrayList<JButton>();
-            for( int x=0; x<numButtons; x++ ){
-                final GameButton button = new GameButton( 0, buttonSize, x, y, buttonList, numButtons, flag );
+            for( int x=0; x<numButtons*2; x++ ){
+                final GameButton button = new GameButton( 0, buttonSize, x, y, buttonArray, numButtons, flag );
                 button.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e){
                         //Execute when button is pressed
@@ -84,10 +82,11 @@ public class Pathogen extends JFrame{
                     }
                 });   
                 buttonPanel.add( button );
-                buttonList.get(x).add(button);
+                buttonArray[x][y] = button;
             }
         }
-        flag.setButtonList( buttonList, ( numButtons * numButtons ) );
+
+        flag.setButtonArray( buttonArray, ( numButtons * numButtons * 2 ) );
         contentPane.add( buttonPanel );
         contentPane.add( undoPane );
         setContentPane( contentPane );

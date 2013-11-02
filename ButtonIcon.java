@@ -6,6 +6,7 @@ import javax.swing.*;
 public class ButtonIcon{
     
     private int buttonSize;
+
     public ButtonIcon(int buttonSize){
         this.buttonSize = buttonSize;
     }

@@ -5,13 +5,13 @@ import javax.swing.*;
 
 public class InfectionSpreader{
 
-    private static ArrayList<ArrayList<GameButton>> buttonList;
+    private static GameButton[][] buttonArray;
     private static ArrayList<GameButton> targets;
     private static ArrayList<GameButton> infected;
     private static GameButton startButton;
 
-    public InfectionSpreader( ArrayList<ArrayList<GameButton>> buttonList, GameButton startButton ){
-        this.buttonList = buttonList;
+    public InfectionSpreader( GameButton[][] buttonArray, GameButton startButton ){
+        this.buttonArray = buttonArray;
         targets = new ArrayList<GameButton>();
         infected = new ArrayList<GameButton>();
         this.startButton = startButton;
@@ -19,9 +19,9 @@ public class InfectionSpreader{
     }
     
     private static void setChangeable(){
-        for( ArrayList<GameButton> list : buttonList )
-            for( GameButton b : list )
-                b.changeable = true;
+        for( int i=0; i<buttonArray.length; i++)
+            for( int j=0; j<buttonArray[i].length; j++)
+                buttonArray[i][j].changeable = true;
     }
 
     public void getInfection(){
@@ -32,31 +32,19 @@ public class InfectionSpreader{
     }
     
     private void getInfection( GameButton parent ){
-        /* 
-         * for watching for program executes
-         *
-        try {
-            Thread.sleep(1000);
-        } catch(InterruptedException ex) {
-            Thread.currentThread().interrupt();
-        }
-        /* 
-         * for watching for program executes
-         */
-        
         int parentX = parent.getXLocal();
         int parentY = parent.getYLocal();
         
         targets = new ArrayList<GameButton>();
         
         if( spreadTest( parentX, parentY-1 ) )
-            targets.add( buttonList.get( parentX ).get( parentY-1 ) );
+            targets.add( buttonArray[parentX][parentY-1] );
         if( spreadTest( parentX, parentY+1 ) )
-            targets.add( buttonList.get( parentX ).get( parentY+1 ) );
+            targets.add( buttonArray[parentX][parentY+1] );
         if( spreadTest( parentX-1, parentY ) )
-            targets.add( buttonList.get( parentX-1 ).get( parentY ) );
+            targets.add( buttonArray[parentX-1][parentY] );
         if( spreadTest( parentX+1, parentY ) )
-            targets.add( buttonList.get( parentX+1 ).get( parentY ) );
+            targets.add( buttonArray[parentX+1][parentY] );
 
         for( GameButton b : targets )
             spread( parent, b );
@@ -64,7 +52,7 @@ public class InfectionSpreader{
 
     private boolean spreadTest( int parentX, int parentY ){
         try{
-            GameButton b = buttonList.get( parentX ).get( parentY );
+            GameButton b = buttonArray[parentX][parentY];
             if( infected.contains(b) )
                 return false;
             return true;

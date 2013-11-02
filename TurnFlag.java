@@ -8,8 +8,8 @@ public class TurnFlag{
     private static Color turn;
     
     private static ArrayList<TypeSelectorButton> typeList;
-    private static ArrayList<ArrayList<GameButton>> buttonList;
-    private static ArrayList<ArrayList<GameButton>> buttonListPrevious;
+    private static GameButton[][] buttonArray;
+    private static GameButton[][] buttonArrayCopy;
     private static int numButtons;
     private static JFrame frame;
     
@@ -19,9 +19,10 @@ public class TurnFlag{
         this.frame = frame;
     }
     
-    public void setButtonList( ArrayList<ArrayList<GameButton>> buttonList, int numButtons ){
+    public void setButtonArray( GameButton[][] buttonArray, int numButtons ){
         this.numButtons = numButtons;
-        this.buttonList = buttonList;
+        this.buttonArray = buttonArray;
+        savePreviousTurn();
     }
     
     public Color getTurn(){
@@ -29,21 +30,31 @@ public class TurnFlag{
     }
     
     public void undoTurn(){
-        buttonList = buttonListPrevious;
+        setToPreviousTurn();
         incTurn();
     }
     
-    public void setPreviousTurn(){
-        this.buttonListPrevious = new ArrayList<ArrayList<GameButton>> ();
-        for( ArrayList<GameButton> list : buttonList ){
-            ArrayList<GameButton> listCopy = new ArrayList<GameButton>();
-            for( GameButton b : list )
-                listCopy.add( new GameButton( b ) );
-            buttonListPrevious.add( list );
-        }
+    private void setToPreviousTurn(){
+        for( int i=0; i<buttonArray.length; i++ )
+            for( int j=0; j<buttonArray[i].length; j++ )
+                buttonArray[i][j] = new GameButton( buttonArrayCopy[i][j] );
+    }
+    
+    public void savePreviousTurn(){
+        this.buttonArrayCopy = new GameButton[numButtons][numButtons*2];
+        for( int i=0; i<buttonArray.length; i++ )
+            for( int j=0; j<buttonArray[i].length; j++ )
+                buttonArrayCopy[i][j] = buttonArray[i][j];
     }
     
     public void incTurn(){
+  
+        System.out.print("Prev: ");
+        buttonArrayCopy[0][0].printStats();
+        System.out.print("Curr: ");
+        buttonArray[0][0].printStats();
+        System.out.println();
+
         String clr = "";
         if( turn == Color.RED ){
             turn = Color.BLUE;
@@ -59,11 +70,11 @@ public class TurnFlag{
     
     private void checkWin(){
         int numBlue = 0, numRed = 0;
-        for( ArrayList<GameButton> list : buttonList )
-            for( GameButton b : list )
-                if( b.getBackground() == Color.RED )
+        for( int i=0; i<buttonArray.length; i++ )
+            for( int j=0; j<buttonArray[i].length; j++ )
+                if( buttonArray[i][j].getBackground() == Color.RED )
                     numRed++;
-                else if( b.getBackground() == Color.BLUE )
+                else if( buttonArray[i][j].getBackground() == Color.BLUE )
                     numBlue++;
         if( numRed + numBlue != numButtons )
             return;
