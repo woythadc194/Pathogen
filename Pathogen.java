@@ -5,7 +5,7 @@ import javax.swing.*;
 
 public class Pathogen extends JFrame{
     
-    private static int numButtons = 12;
+    private static int numButtons = 10;
     private static int buttonSize = 50;
     private static int currentSelectedVal;
     private static GameButton[][] buttonArray;
@@ -63,7 +63,7 @@ public class Pathogen extends JFrame{
         undoButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 //Execute when button is pressed
-                undoButton.clicked();
+                //undoButton.clicked();
             }
         }); 
         undoPane.add( undoButton );
