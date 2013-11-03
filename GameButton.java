@@ -96,13 +96,12 @@ public class GameButton extends JButton{
             new InfectionSpreader( buttonArray, this, typeSelected ).getInfection();
             flag.incTurn();
         } else if( bgColor == pTurn ){
-            if( typeSelected <= this.getType() ){
+            if( typeSelected != this.getType() ){
                 flag.savePreviousTurn();
                 new InfectionSpreader(buttonArray, this, typeSelected ).getInfection();
                 flag.incTurn();
             } else {
-                JOptionPane.showMessageDialog( frame, "To upgrade your own cell you must select a cell type equal to or higher than it!", 
-                                                "Error", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog( frame, "To upgrade your own cell you must select a cell type equal to or higher than it!", "Error", JOptionPane.PLAIN_MESSAGE);
             }
         } else {
             if( typeSelected > this.getType() ){
@@ -110,8 +109,7 @@ public class GameButton extends JButton{
                 new InfectionSpreader(buttonArray, this, flag.getTypeSelected() ).getInfection();
                 flag.incTurn();
             } else {
-                JOptionPane.showMessageDialog(frame, "To take over enemy cell you must select a cell type higher than it!", 
-                                                "Error", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "To take over enemy cell you must select a cell type higher than it!", "Error", JOptionPane.PLAIN_MESSAGE);
             }
         }
     }
