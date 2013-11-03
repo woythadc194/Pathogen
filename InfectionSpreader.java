@@ -67,122 +67,29 @@ public class InfectionSpreader{
         Color parentBg = parent.getBackground();
         Color childBg = child.getBackground();
         if( parentType == 4 ){
-            if( childType == 3 ){
-                if( parentBg == childBg ){
-                    set4( child );
-                    getInfection( child );
-                } else{
-                    set4( child );
-                    getInfection( child );
-                }
-            } else if( childType == 2 ){
-                if( parentBg == childBg ){
-                    set3( child );
-                    getInfection( child );
-                } else{
-                    set3( child );
-                    getInfection( child );
-                }
-            } else if( childType == 1 ){
-                if( parentBg == childBg ){
-                    set3( child );
-                    getInfection( child );
-                } else{
-                    set3( child );
-                    getInfection( child );
-                }
-            } else if( childType == 0 ){
+            if( child.changeable && childType == 3 ){
+                set4( child );
+                getInfection( child );
+            } else if( child.changeable && childType <= 2 ){
                 set3( child );
                 getInfection( child );
             }
         } else if( parentType == 3 ){
-            if( childType == 2 ){
-                if( parentBg == childBg ){
-                    set3( child );
-                    getInfection( child );
-                } else{
-                    set3( child );
-                    getInfection( child );
-                }
-            } else if( childType == 1 ){
-                if( parentBg == childBg ){
-                    set2( child );
-                    getInfection( child );
-                } else{
-                    set2( child );
-                    getInfection( child );
-                }
-            } else if( childType == 0 ){
+            if( child.changeable && childType == 2 ){
+                set3( child );
+                getInfection( child );
+            } else if( child.changeable && childType <= 1 ){
                 set2( child );
                 getInfection( child );
-            
             }
         } else if( parentType == 2 ){
-            if( childType == 1 ){
-                if( parentBg == childBg ){
-                    set2( child );
-                    getInfection( child );
-                } else{
-                    set2( child );
-                    getInfection( child );
-                }
-            } else if( childType == 0 ){
+            if( child.changeable && childType == 1 ){
+                set2( child );
+                getInfection( child );
+            } else if( child.changeable && childType == 0 ){
                 set1( child );
             }
         }
-/*        
-        if( childType == 4 ){
-            if( parentType == 4 && child.changeable ){
-                    ;
-            }else if( parentType == 3 && child.changeable ){
-                    ;
-            }else if( parentType == 2 && child.changeable ){
-                    ;
-            }else if( parentType == 1 && child.changeable ){
-                    ;
-            }
-        }else if( childType == 3 ){
-            if( parentType == 4 && child.changeable ){
-                set4( child );
-                getInfection( child );
-            }else if( parentType == 3 && child.changeable ){
-                set4( child );
-                getInfection( child );
-            }else if( parentType == 2 && child.changeable ){
-                ;
-            }else if( parentType == 1 && child.changeable ){
-                ;
-            }
-        }else if( childType == 2 ){
-            if( parentType == 4 && child.changeable ){
-                set3( child );
-                getInfection( child );
-            }else if( parentType == 3 && child.changeable ){
-                set3( child );
-                getInfection( child );
-            }else if( parentType == 2 && child.changeable ){
-                ;
-            }else if( parentType == 1 && child.changeable ){
-                ;
-            }
-        }else if( childType == 1 ){
-            if( parentType == 4 && child.changeable ){
-                set3( child );
-                getInfection( child );
-            }else if( parentType == 3 && child.changeable ){
-                set2( child );
-                getInfection( child );
-            }else if( parentType == 2 && child.changeable ){
-                set2( child );
-                getInfection( child );
-            }else if( parentType == 1 && child.changeable ){
-                ;
-            }
-        }else if( childType == 0 && child.changeable ){
-            set1( child );
-        }
-        
-        */
     }
     
     private void set4( GameButton b ){
