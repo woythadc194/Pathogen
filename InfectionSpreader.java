@@ -9,12 +9,14 @@ public class InfectionSpreader{
     private static ArrayList<GameButton> targets;
     private static ArrayList<GameButton> infected;
     private static GameButton startButton;
+    private static int strength;
 
-    public InfectionSpreader( GameButton[][] buttonArray, GameButton startButton ){
+    public InfectionSpreader( GameButton[][] buttonArray, GameButton startButton, int strength ){
         this.buttonArray = buttonArray;
         targets = new ArrayList<GameButton>();
         infected = new ArrayList<GameButton>();
         this.startButton = startButton;
+        this.strength = strength;
         setChangeable();
     }
     
@@ -27,8 +29,16 @@ public class InfectionSpreader{
     public void getInfection(){
         GameButton parent = startButton;
         infected.add( parent );
-        parent.setType( parent.getType() + 1 );
+        setParent( parent ); 
         getInfection( parent );
+    }
+    
+    private void setParent( GameButton parent){
+        int parentStrength = parent.getType();
+        if(parentStrength < strength)
+            parent.setType(strength);
+        else if(parentStrength == strength)
+            parent.setType(strength+1);
     }
     
     private void getInfection( GameButton parent ){

@@ -6,7 +6,6 @@ import javax.swing.*;
 public class GameButton extends JButton{
     
     private static GameButton [][] buttonArray;
-    private static ArrayList<GameButton> changed;
     private static int nButtons;
     private static TurnFlag flag;
     private int cellType;
@@ -14,8 +13,9 @@ public class GameButton extends JButton{
     private int xLocal;
     private int yLocal;
     public boolean changeable;
+    private static JFrame frame;
     
-    public GameButton( int cellType, int buttonSize, int xLocal, int yLocal, GameButton[][] buttonArray, int nButtons, TurnFlag flag ){
+    public GameButton( int cellType, int buttonSize, int xLocal, int yLocal, GameButton[][] buttonArray, int nButtons, TurnFlag flag, JFrame frame){
         super();
         this.changeable = true;
         this.xLocal=xLocal;
@@ -90,20 +90,28 @@ public class GameButton extends JButton{
     public void clicked(){
         Color bgColor = this.getBackground();
         Color pTurn = flag.getTurn();
-        if( bgColor != pTurn ){
-            if( bgColor == Color.BLACK ){
+        int typeSelected = flag.getTypeSelected();
+        if( bgColor == Color.BLACK ){
+            flag.savePreviousTurn();
+            new InfectionSpreader( buttonArray, this, typeSelected ).getInfection();
+            flag.incTurn();
+        } else if( bgColor == pTurn ){
+            if( typeSelected <= this.getType() ){
                 flag.savePreviousTurn();
-                setType(1);
-                this.setBackground( pTurn );
-                changed = new ArrayList<GameButton> ();
+                new InfectionSpreader(buttonArray, this, typeSelected ).getInfection();
                 flag.incTurn();
+            } else {
+                JOptionPane.showMessageDialog( frame, "To upgrade your own cell you must select a cell type equal to or higher than it!", 
+                                                "Error", JOptionPane.PLAIN_MESSAGE);
             }
         } else {
-            if( getType() < 4 ){
+            if( typeSelected > this.getType() ){
                 flag.savePreviousTurn();
-                new InfectionSpreader(buttonArray, this).getInfection();
-                changed = new ArrayList<GameButton> ();
+                new InfectionSpreader(buttonArray, this, flag.getTypeSelected() ).getInfection();
                 flag.incTurn();
+            } else {
+                JOptionPane.showMessageDialog(frame, "To take over enemy cell you must select a cell type higher than it!", 
+                                                "Error", JOptionPane.PLAIN_MESSAGE);
             }
         }
     }

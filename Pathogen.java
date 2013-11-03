@@ -31,6 +31,9 @@ public class Pathogen extends JFrame{
     }
 
     private void createAndDisplayGUI(){
+    
+        TurnFlag flag = new TurnFlag( Color.RED, this );
+        
         buttonArray = new GameButton[numButtons*2][numButtons];
     
         setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
@@ -40,32 +43,37 @@ public class Pathogen extends JFrame{
         contentPane.setBorder( BorderFactory.createLineBorder( Color.DARK_GRAY, 2 ) );
         
         JPanel typePane = new JPanel();
-        ArrayList<TypeSelectorButton> typeList = new ArrayList<TypeSelectorButton>();
+        ArrayList<TypeButton> typeList = new ArrayList<TypeButton>();
         typePane.setLayout( new GridLayout( 3, 1, 0, getTypeButtonSpace() ) );
         contentPane.setBorder( BorderFactory.createLineBorder( Color.DARK_GRAY, 2 ) );
-        TypeSelectorButton b = new TypeSelectorButton("aRedCell", buttonSize, 1);
+        final TypeButton a = new TypeButton( "aRedCell", buttonSize, 1, flag );
+        a.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e){ a.clicked(); } }); 
+        typePane.add( a );
+        typeList.add( a );
+        final TypeButton b = new TypeButton( "bRedCell", buttonSize, 2, flag );
+        b.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e){ b.clicked(); } });
         typePane.add( b );
         typeList.add( b );
-        b = new TypeSelectorButton("bRedCell", buttonSize, 2);
-        typePane.add( b );
-        typeList.add( b );
-        b = new TypeSelectorButton("cRedCell", buttonSize, 3);
-        typePane.add( b );
-        typeList.add( b );
+        final TypeButton c = new TypeButton( "cRedCell", buttonSize, 3, flag );
+        c.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e){ c.clicked(); } });
+        typePane.add( c );
+        typeList.add( c );
         contentPane.add( typePane );
         
-        TurnFlag flag = new TurnFlag( Color.RED, typeList, this );
-        
+        flag.addTypeList( typeList );
+
         JPanel undoPane = new JPanel();
         undoPane.setLayout( new GridLayout( 1, 1, 1, 1 ) );
         undoPane.setBorder( BorderFactory.createLineBorder( Color.DARK_GRAY, 2 ) );
         final UndoButton undoButton = new UndoButton("UNDO", this, buttonArray);
+        /*
         undoButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 //Execute when button is pressed
                 //undoButton.clicked();
             }
         }); 
+        */
         undoPane.add( undoButton );
 
         
@@ -74,7 +82,7 @@ public class Pathogen extends JFrame{
         for( int y=0; y<numButtons; y++ ){
             ArrayList<JButton> list = new ArrayList<JButton>();
             for( int x=0; x<numButtons*2; x++ ){
-                final GameButton button = new GameButton( 0, buttonSize, x, y, buttonArray, numButtons, flag );
+                final GameButton button = new GameButton( 0, buttonSize, x, y, buttonArray, numButtons, flag, this );
                 button.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e){
                         //Execute when button is pressed

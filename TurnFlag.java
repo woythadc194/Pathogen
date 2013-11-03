@@ -6,23 +6,37 @@ import javax.swing.*;
 public class TurnFlag{
     
     private static Color turn;
-    
-    private static ArrayList<TypeSelectorButton> typeList;
+    private static int typeSelected;
+
+    private static ArrayList<TypeButton> typeList;
     private static GameButton[][] buttonArray;
     private static GameButton[][] buttonArrayCopy;
     private static int numButtons;
     private static JFrame frame;
     
-    public TurnFlag( Color startColor, ArrayList<TypeSelectorButton> typeList, JFrame frame ){
+    public TurnFlag( Color startColor, JFrame frame ){
         this.turn = startColor;
-        this.typeList = typeList;
         this.frame = frame;
+        this.typeSelected = 1;
     }
     
+    public void addTypeList( ArrayList<TypeButton> typeList ){
+        this.typeList = typeList;    
+    }
+
     public void setButtonArray( GameButton[][] buttonArray, int numButtons ){
         this.numButtons = numButtons;
         this.buttonArray = buttonArray;
         savePreviousTurn();
+    }
+    
+    public int getTypeSelected(){
+        return this.typeSelected;
+    }
+    
+    public void setTypeSelected( int x ){
+        System.out.println("TYPE IS NOW: " + x);
+        this.typeSelected = x;
     }
     
     public Color getTurn(){
@@ -63,9 +77,11 @@ public class TurnFlag{
             turn = Color.RED;
             clr = "Red";
         }
-        for( TypeSelectorButton b : typeList )
+        for( TypeButton b : typeList )
             b.setIcon( new ButtonIcon( b.getButtonSize() ).getIcon( "" + b.getIconType() + clr + "Cell" ) );
         checkWin();
+        setTypeSelected( 1 );
+        
     }
     
     private void checkWin(){
