@@ -35,6 +35,7 @@ public class InfectionSpreader{
         infected.add( parent );
         setParent( parent ); 
         getInfection( parent );
+        flag.incTurn();
     }
     
     private void setParent( GameButton parent){

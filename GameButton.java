@@ -74,29 +74,19 @@ public class GameButton extends JButton{
     public void clicked(){
         Color bgColor = this.getBackground();
         Color pTurn = flag.getTurn();
-        System.out.println( bgColor );
-        System.out.println( pTurn );
         int typeSelected = flag.getTypeSelected();
         if( bgColor == Color.BLACK ){
-            System.out.println("HERE");
             new InfectionSpreader( buttonArray, this, typeSelected, flag ).getInfection();
-            flag.incTurn();
         } else if( bgColor == pTurn ){
-            if( typeSelected >= this.getType() ){
+            if( typeSelected >= this.getType() )
                 new InfectionSpreader(buttonArray, this, typeSelected, flag ).getInfection();
-                flag.incTurn();
-            } else {
-                System.out.println("To upgrade your own cell you must select a cell type equal to or higher than it!");
-//              JOptionPane.showMessageDialog( frame, "To upgrade your own cell you must select a cell type equal to or higher than it!", "Error", JOptionPane.PLAIN_MESSAGE);
-            }
+            else
+              JOptionPane.showMessageDialog( frame, "To upgrade your own cell you must select a cell type equal to or higher than it!", "Error", JOptionPane.PLAIN_MESSAGE);
         } else {
-            if( typeSelected > this.getType() ){
+            if( typeSelected > this.getType() )
                 new InfectionSpreader(buttonArray, this, flag.getTypeSelected(), flag ).getInfection();
-                flag.incTurn();
-            } else {
-                System.out.println("To take over enemy cell you must select a cell type higher than it!");
-//              JOptionPane.showMessageDialog(frame, "To take over enemy cell you must select a cell type higher than it!", "Error", JOptionPane.PLAIN_MESSAGE);
-            }
+            else 
+              JOptionPane.showMessageDialog(frame, "To take over enemy cell you must select a cell type higher than it!", "Error", JOptionPane.PLAIN_MESSAGE);
         }
     }
     
