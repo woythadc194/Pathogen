@@ -27,7 +27,7 @@ public class TurnFlag{
     public void setButtonArray( GameButton[][] buttonArray, int numButtons ){
         this.numButtons = numButtons;
         this.buttonArray = buttonArray;
-        savePreviousTurn();
+        this.turn = Color.RED;
     }
     
     public int getTypeSelected(){
@@ -43,32 +43,7 @@ public class TurnFlag{
         return this.turn;
     }
     
-    public void undoTurn(){
-        setToPreviousTurn();
-        incTurn();
-    }
-    
-    private void setToPreviousTurn(){
-        for( int i=0; i<buttonArray.length; i++ )
-            for( int j=0; j<buttonArray[i].length; j++ )
-                buttonArray[i][j] = new GameButton( buttonArrayCopy[i][j] );
-    }
-    
-    public void savePreviousTurn(){
-        this.buttonArrayCopy = new GameButton[numButtons][numButtons*2];
-        for( int i=0; i<buttonArray.length; i++ )
-            for( int j=0; j<buttonArray[i].length; j++ )
-                buttonArrayCopy[i][j] = buttonArray[i][j];
-    }
-    
     public void incTurn(){
-  
-        System.out.print("Prev: ");
-        buttonArrayCopy[0][0].printStats();
-        System.out.print("Curr: ");
-        buttonArray[0][0].printStats();
-        System.out.println();
-
         String clr = "";
         if( turn == Color.RED ){
             turn = Color.BLUE;

@@ -26,24 +26,8 @@ public class GameButton extends JButton{
         this.buttonArray = buttonArray;
         this.nButtons = nButtons;
         this.setIcon( new ButtonIcon( buttonSize ).getIcon( "eCell" ) );
-        this.setBackground( Color.black );
+        this.setBackground( flag.getTurn() );
         this.setPreferredSize( new Dimension( buttonSize, buttonSize ) );
-        this.setBorder( BorderFactory.createEmptyBorder() );
-    }
-    
-    public GameButton( GameButton b ){
-        super();
-        this.changeable = b.changeable;
-        this.xLocal=b.xLocal;
-        this.yLocal=b.yLocal;
-        this.buttonSize = b.buttonSize;
-        this.cellType = b.cellType;
-        this.flag = b.flag;
-        this.buttonArray = b.buttonArray;
-        this.nButtons = b.nButtons;
-        this.setIcon( b.getIcon() );
-        this.setBackground( b.getBackground() );
-        this.setPreferredSize( new Dimension( b.buttonSize, b.buttonSize ) );
         this.setBorder( BorderFactory.createEmptyBorder() );
     }
     
@@ -94,12 +78,11 @@ public class GameButton extends JButton{
         System.out.println( pTurn );
         int typeSelected = flag.getTypeSelected();
         if( bgColor == Color.BLACK ){
-            flag.savePreviousTurn();
+            System.out.println("HERE");
             new InfectionSpreader( buttonArray, this, typeSelected, flag ).getInfection();
             flag.incTurn();
         } else if( bgColor == pTurn ){
-            if( typeSelected != this.getType() ){
-                flag.savePreviousTurn();
+            if( typeSelected >= this.getType() ){
                 new InfectionSpreader(buttonArray, this, typeSelected, flag ).getInfection();
                 flag.incTurn();
             } else {
@@ -108,7 +91,6 @@ public class GameButton extends JButton{
             }
         } else {
             if( typeSelected > this.getType() ){
-                flag.savePreviousTurn();
                 new InfectionSpreader(buttonArray, this, flag.getTypeSelected(), flag ).getInfection();
                 flag.incTurn();
             } else {
@@ -130,24 +112,25 @@ public class GameButton extends JButton{
         this.cellType = x;
         Color pTurn = flag.getTurn();
         if( x == 1 )
-            if( pTurn == Color.blue )
+            if( pTurn == Color.BLUE )
                 this.setIcon( new ButtonIcon( buttonSize ).getIcon( "aBlueCell" ) );
             else
                 this.setIcon( new ButtonIcon( buttonSize ).getIcon( "aRedCell" ) );
         if( x == 2 )
-            if( pTurn == Color.blue )
+            if( pTurn == Color.BLUE )
                 this.setIcon( new ButtonIcon( buttonSize ).getIcon( "bBlueCell" ) );
             else
                 this.setIcon( new ButtonIcon( buttonSize ).getIcon( "bRedCell" ) );
         if( x == 3 )
-            if( pTurn == Color.blue )
+            if( pTurn == Color.BLUE )
                 this.setIcon( new ButtonIcon( buttonSize ).getIcon( "cBlueCell" ) );
             else
                 this.setIcon( new ButtonIcon( buttonSize ).getIcon( "cRedCell" ) );
         if( x == 4 )
-            if( pTurn == Color.blue )
+            if( pTurn == Color.BLUE )
                 this.setIcon( new ButtonIcon( buttonSize ).getIcon( "solidBlueCell" ) );
             else
                 this.setIcon( new ButtonIcon( buttonSize ).getIcon( "solidRedCell" ) );
+        this.setBackground( pTurn );
     }
 }

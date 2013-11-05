@@ -32,7 +32,7 @@ public class Pathogen extends JFrame{
 
     private void createAndDisplayGUI(){
     
-        TurnFlag flag = new TurnFlag( Color.RED, this );
+        TurnFlag flag = new TurnFlag( Color.black, this );
         
         buttonArray = new GameButton[numButtons*2][numButtons];
     
