@@ -40,7 +40,7 @@ public class TurnFlag{
     }
     
     public Color getTurn(){
-        return turn;
+        return this.turn;
     }
     
     public void undoTurn(){

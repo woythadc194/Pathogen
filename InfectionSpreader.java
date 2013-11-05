@@ -10,13 +10,15 @@ public class InfectionSpreader{
     private static ArrayList<GameButton> infected;
     private static GameButton startButton;
     private static int strength;
+    private static TurnFlag flag;
 
-    public InfectionSpreader( GameButton[][] buttonArray, GameButton startButton, int strength ){
+    public InfectionSpreader( GameButton[][] buttonArray, GameButton startButton, int strength, TurnFlag flag ){
         this.buttonArray = buttonArray;
         targets = new ArrayList<GameButton>();
         infected = new ArrayList<GameButton>();
         this.startButton = startButton;
         this.strength = strength;
+        this.flag = flag;
         setChangeable();
     }
     
@@ -104,28 +106,28 @@ public class InfectionSpreader{
     
     private void set4( GameButton b ){
         b.changeable = false;
-        b.setBackground( startButton.getBackground() );
+        b.setBackground( flag.getTurn() );
         b.setType(4);
         infected.add( b );
     }
     
     private void set3( GameButton b ){
         b.changeable = false;
-        b.setBackground( startButton.getBackground() );
+        b.setBackground( flag.getTurn() );
         b.setType(3);
         infected.add( b );
     }
     
     private void set2( GameButton b ){
         b.changeable = false;
-        b.setBackground( startButton.getBackground() );
+        b.setBackground( flag.getTurn() );
         b.setType(2);
         infected.add( b );
     }
     
     private void set1( GameButton b ){
         b.changeable = false;
-        b.setBackground( startButton.getBackground() );
+        b.setBackground( flag.getTurn() );
         b.setType(1);
         infected.add( b );
     }
