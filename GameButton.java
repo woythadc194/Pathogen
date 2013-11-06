@@ -79,8 +79,11 @@ public class GameButton extends JButton{
         Color bgColor = this.getBackground();
         Color pTurn = flag.getTurn();
         int typeSelected = flag.getTypeSelected();
-        if( typeSelected == 0 && this.getType()!=0 ){
-            new Antivirus( buttonArray, this, this.getType(), flag ).cure();
+        if( typeSelected == 0 ){
+            if( this.getType()==0 || this.getType()==4 )
+                JOptionPane.showMessageDialog( frame, "Cannot remove Type " + this.getType() + " cells!", "Error", JOptionPane.PLAIN_MESSAGE);
+            else
+                new Antivirus( buttonArray, this, this.getType(), flag ).cure();
         } else if( bgColor == Color.BLACK ){
             new InfectionSpreader( buttonArray, this, typeSelected, flag ).getInfection();
         } else if( bgColor == pTurn ){
