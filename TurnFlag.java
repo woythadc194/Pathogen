@@ -52,15 +52,32 @@ public class TurnFlag{
         else
             turn = Color.RED;
         for( TypeButton b : typeList ){
-            //System.out.println(b.getButtonType());
-            if( b.turnBool ){
+            if(b.turnBool)
+                b.cooldown--;
+            if( b.cooldown < 0 )
+                b.cooldown = 0;
+            
+            if( b.cooldown != 0 && b.getType() != 1 )
+                b.setIcon( new ButtonIcon( b.getButtonSize() ).getIcon( b.getButtonType() + b.cooldown ) );
+            else if( b.turnBool )
                 b.setIcon( new ButtonIcon( b.getButtonSize() ).getIcon( b.getButtonType() + "Dark" ) );
-            } else {
-                b.setIcon( new ButtonIcon( b.getButtonSize() ).getIcon( b.getButtonType() ) );                
+            else
+                b.setIcon( new ButtonIcon( b.getButtonSize() ).getIcon( b.getButtonType() ) );
+            
+            if( b.getType()==this.getTypeSelected() && b.cooldown==0 && b.turnBool){
+                b.resetCooldown();
+                b.setIcon( new ButtonIcon( b.getButtonSize() ).getIcon( b.getButtonType() + b.cooldown ) );
             }
+            if( b.getType()==1)
+                if( b.turnBool )
+                    b.setIcon( new ButtonIcon( b.getButtonSize() ).getIcon( b.getButtonType() + "Dark" ) );
+                else
+                    b.setIcon( new ButtonIcon( b.getButtonSize() ).getIcon( b.getButtonType() ) );                    
+
             b.turnBool = !b.turnBool;
-            if( b.turnBool && b.getType()==1 ) 
+            if( b.turnBool && b.getType()==1 )
                 b.setIcon( new ButtonIcon( b.getButtonSize() ).getIcon( b.getButtonType() + "Selected" ) );
+                
         }
         setTypeSelected( 1 );
         checkWin();
