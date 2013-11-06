@@ -35,6 +35,10 @@ public class GameButton extends JButton{
         return this.cellType;
     }
     
+    public int getButtonSize(){
+        return this.buttonSize;
+    }
+    
     public void printStats(){
         System.out.print( "(" + xLocal + ", " + yLocal + ") Type:" + cellType + " " );
         if( this.getBackground() == Color.RED )
@@ -75,7 +79,9 @@ public class GameButton extends JButton{
         Color bgColor = this.getBackground();
         Color pTurn = flag.getTurn();
         int typeSelected = flag.getTypeSelected();
-        if( bgColor == Color.BLACK ){
+        if( typeSelected == 0 ){
+            new Antivirus( buttonArray, this, this.getType(), flag ).cure();
+        } else if( bgColor == Color.BLACK ){
             new InfectionSpreader( buttonArray, this, typeSelected, flag ).getInfection();
         } else if( bgColor == pTurn ){
             if( typeSelected >= this.getType() )

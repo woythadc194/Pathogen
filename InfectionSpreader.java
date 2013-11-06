@@ -29,14 +29,6 @@ public class InfectionSpreader{
             for( int j=0; j<buttonArray[i].length; j++)
                 buttonArray[i][j].changeable = true;
     }
-
-    public void getInfection(){
-        GameButton parent = startButton;
-        infected.add( parent );
-        setParent( parent ); 
-        getInfection( parent );
-        flag.incTurn();
-    }
     
     private void setParent( GameButton parent){
         int parentStrength = parent.getType();
@@ -44,6 +36,14 @@ public class InfectionSpreader{
             parent.setType(strength);
         else if(parentStrength == strength)
             parent.setType(strength+1);
+    }
+
+    public void getInfection(){
+        GameButton parent = startButton;
+        infected.add( parent );
+        setParent( parent ); 
+        getInfection( parent );
+        flag.incTurn();
     }
     
     private void getInfection( GameButton parent ){

@@ -28,9 +28,9 @@ public class Pathogen extends JFrame{
     }
     
     private int getTypeButtonSpace(){
-        int boardHeight = ( ( numButtons * buttonSize ) + ( numButtons+1 ) );
-        int whiteSpace = boardHeight - ( buttonSize * 3 );
-        return ( whiteSpace / 4 );
+        int boardHeight = ( ( numButtons * buttonSize ) + ( numButtons+1 ) ); //sum of width of button + whitespace between buttons
+        int whiteSpace = boardHeight - ( buttonSize * 4 );
+        return ( whiteSpace / 5 );
     }
 
     private void createAndDisplayGUI(){
@@ -49,7 +49,7 @@ public class Pathogen extends JFrame{
         ArrayList<TypeButton> typeList = new ArrayList<TypeButton>();
         JPanel typeRedPane = new JPanel();
         typeRedPane.setBackground( Color.BLACK );
-        typeRedPane.setLayout( new GridLayout( 3, 1, 0, getTypeButtonSpace() ) );
+        typeRedPane.setLayout( new GridLayout( 4, 1, 0, getTypeButtonSpace() ) );
         final TypeButton aRed = new TypeButton( "aRedCell", buttonSize, 1, flag, true );
         aRed.setIcon( new ButtonIcon( buttonSize ).getIcon( "aRedCellSelected" ) );
         aRed.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e){ aRed.clicked(); } }); 
@@ -65,10 +65,15 @@ public class Pathogen extends JFrame{
         cRed.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e){ cRed.clicked(); } });
         typeRedPane.add( cRed );
         typeList.add( cRed );
+        final TypeButton cureRed = new TypeButton( "cureRedCell", buttonSize, 0, flag, true );
+        cureRed.setIcon( new ButtonIcon( buttonSize ).getIcon( "cureRedCell" ) );
+        cureRed.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e){ cureRed.clicked(); } });
+        typeRedPane.add( cureRed );
+        typeList.add( cureRed );
         
         JPanel typeBluePane = new JPanel();
         typeBluePane.setBackground( Color.BLACK );
-        typeBluePane.setLayout( new GridLayout( 3, 1, 0, getTypeButtonSpace() ) );
+        typeBluePane.setLayout( new GridLayout( 4, 1, 0, getTypeButtonSpace() ) );
         final TypeButton aBlue = new TypeButton( "aBlueCell", buttonSize, 1, flag, false );
         aBlue.setIcon( new ButtonIcon( buttonSize ).getIcon( "aBlueCellDark" ) );
         aBlue.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e){ aBlue.clicked(); } }); 
@@ -84,6 +89,11 @@ public class Pathogen extends JFrame{
         cBlue.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e){ cBlue.clicked(); } });
         typeBluePane.add( cBlue );
         typeList.add( cBlue );
+        final TypeButton cureBlue = new TypeButton( "cureBlueCell", buttonSize, 0, flag, false );
+        cureBlue.setIcon( new ButtonIcon( buttonSize ).getIcon( "cureBlueCellDark" ) );
+        cureBlue.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e){ cureBlue.clicked(); } });
+        typeBluePane.add( cureBlue );
+        typeList.add( cureBlue );
         
         JPanel buttonPane = new JPanel();
         buttonPane.setBackground( Color.BLACK );
