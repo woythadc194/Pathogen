@@ -10,7 +10,6 @@ public class TurnFlag{
 
     private static ArrayList<TypeButton> typeList;
     private static GameButton[][] buttonArray;
-    private static GameButton[][] buttonArrayCopy;
     private static int numButtons;
     private static JFrame frame;
     
@@ -30,12 +29,16 @@ public class TurnFlag{
         this.turn = Color.RED;
     }
     
+    public ArrayList<TypeButton> getTypeList(){
+        return this.typeList;
+    }
+    
     public int getTypeSelected(){
         return this.typeSelected;
     }
     
     public void setTypeSelected( int x ){
-        System.out.println("TYPE IS NOW: " + x);
+        //System.out.println("TYPE IS NOW: " + x);
         this.typeSelected = x;
     }
     
@@ -44,19 +47,23 @@ public class TurnFlag{
     }
     
     public void incTurn(){
-        String clr = "";
-        if( turn == Color.RED ){
+        if( turn == Color.RED )
             turn = Color.BLUE;
-            clr = "Blue";
-        }else{
+        else
             turn = Color.RED;
-            clr = "Red";
+        for( TypeButton b : typeList ){
+            //System.out.println(b.getButtonType());
+            if( b.turnBool ){
+                b.setIcon( new ButtonIcon( b.getButtonSize() ).getIcon( b.getButtonType() + "Dark" ) );
+            } else {
+                b.setIcon( new ButtonIcon( b.getButtonSize() ).getIcon( b.getButtonType() ) );                
+            }
+            b.turnBool = !b.turnBool;
+            if( b.turnBool && b.getType()==1 ) 
+                b.setIcon( new ButtonIcon( b.getButtonSize() ).getIcon( b.getButtonType() + "Selected" ) );
         }
-        for( TypeButton b : typeList )
-            b.setIcon( new ButtonIcon( b.getButtonSize() ).getIcon( "" + b.getIconType() + clr + "Cell" ) );
-        checkWin();
         setTypeSelected( 1 );
-        
+        checkWin();
     }
     
     private void checkWin(){
