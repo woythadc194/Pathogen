@@ -79,7 +79,7 @@ public class GameButton extends JButton{
         Color bgColor = this.getBackground();
         Color pTurn = flag.getTurn();
         int typeSelected = flag.getTypeSelected();
-        if( typeSelected == 0 ){
+        if( typeSelected == 0 && this.getType()!=0 ){
             new Antivirus( buttonArray, this, this.getType(), flag ).cure();
         } else if( bgColor == Color.BLACK ){
             new InfectionSpreader( buttonArray, this, typeSelected, flag ).getInfection();

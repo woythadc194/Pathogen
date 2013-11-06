@@ -19,6 +19,7 @@ public class Antivirus{
     }
     
     public void cure(){
+        set0( startButton );
         cure( startButton );
         flag.incTurn();
     }
