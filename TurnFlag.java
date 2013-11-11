@@ -84,16 +84,30 @@ public class TurnFlag{
     }
     
     private void checkWin(){
-        int numBlue = 0, numRed = 0;
+        int numBlue = 0, numRed = 0, numBlueS = 0, numRedS = 0;
         for( int i=0; i<buttonArray.length; i++ )
-            for( int j=0; j<buttonArray[i].length; j++ )
-                if( buttonArray[i][j].getBackground() == Color.RED )
+            for( int j=0; j<buttonArray[i].length; j++ ){
+                if( buttonArray[i][j].getBackground() == Color.RED ){
                     numRed++;
-                else if( buttonArray[i][j].getBackground() == Color.BLUE )
+                    if( buttonArray[i][j].getType() == 4 )
+                        numRedS++;
+                } else if( buttonArray[i][j].getBackground() == Color.BLUE ){
                     numBlue++;
-        if( numRed + numBlue != numButtons )
+                    if( buttonArray[i][j].getType() == 4 )
+                        numBlueS++;
+                }
+            }
+        if( numRedS < numButtons/2 && numBlueS < numButtons/2 && numRed+numBlue!=numButtons )
             return;
-        JOptionPane.showMessageDialog(frame, ( "RED: " + numRed + "; BLUE: " + numBlue ), "GAME OVER", JOptionPane.PLAIN_MESSAGE);
+        if( numRedS >= numButtons/2 )
+            JOptionPane.showMessageDialog(frame, ( "Red Solid took over the board \n RED: " 
+            + numRed + "; BLUE: " + numBlue ), "GAME OVER", JOptionPane.PLAIN_MESSAGE);
+        if( numBlueS >= numButtons/2 )
+            JOptionPane.showMessageDialog(frame, ( "Blue Solid took over the board \n RED: " 
+            + numRed + "; BLUE: " + numBlue ), "GAME OVER", JOptionPane.PLAIN_MESSAGE);
+        if( numRed + numBlue == numButtons )
+            JOptionPane.showMessageDialog(frame, ( "RED: " + numRed + "; BLUE: " 
+            + numBlue ), "GAME OVER", JOptionPane.PLAIN_MESSAGE);
         System.exit(0);
     }
 }

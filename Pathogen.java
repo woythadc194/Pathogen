@@ -6,7 +6,7 @@ import javax.swing.*;
 public class Pathogen extends JFrame{
     
     private static int numButtons = 10;
-    private static int buttonSize = 35;
+    private static int buttonSize = 25;
     private static int currentSelectedVal;
     private static GameButton[][] buttonArray;
 
@@ -36,65 +36,81 @@ public class Pathogen extends JFrame{
     private void createAndDisplayGUI(){
     
         TurnFlag flag = new TurnFlag( Color.black, this );
-        
         buttonArray = new GameButton[numButtons*2][numButtons];
-    
         setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
 
+        JPanel gameWindow = new JPanel();
+        gameWindow.setLayout( new BorderLayout() );
+        
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.setBorder( BorderFactory.createEmptyBorder() );
+        menuBar.setBackground( Color.DARK_GRAY );
+        
+        JMenu fileMenu = new JMenu( "File" );
+        fileMenu.setForeground( Color.WHITE );
+                
+        JMenuItem newGame = new JMenuItem( "New Game" );
+        JMenuItem quit = new JMenuItem( "Quit" );
+        quit.addActionListener( new ActionListener() { public void actionPerformed(ActionEvent e){ System.exit(0); } } );
+        
+        fileMenu.add( newGame );
+        fileMenu.add( quit );
+        menuBar.add( fileMenu );
+        gameWindow.add( menuBar, BorderLayout.NORTH );
+        
         JPanel contentPane = new JPanel();
         contentPane.setLayout( new FlowLayout( FlowLayout.LEFT ) );
         contentPane.setBorder( BorderFactory.createLineBorder( Color.DARK_GRAY, 2 ) );
         contentPane.setBackground( Color.BLACK );
         
         ArrayList<TypeButton> typeList = new ArrayList<TypeButton>();
+        typeList.add( getTypeButton( "aRedCell",    "Selected", buttonSize, 1, flag, true, 0 ) );
+        typeList.add( getTypeButton( "bRedCell",    "",         buttonSize, 2, flag, true, 3 ) );
+        typeList.add( getTypeButton( "cRedCell",    "",         buttonSize, 3, flag, true, 7 ) );
+        typeList.add( getTypeButton( "cureRedCell", "",         buttonSize, 0, flag, true, 7 ) );
+
+        typeList.add( getTypeButton( "aBlueCell",    "Dark", buttonSize, 1, flag, false, 0 ) );        
+        typeList.add( getTypeButton( "bBlueCell",    "Dark", buttonSize, 2, flag, false, 3 ) );        
+        typeList.add( getTypeButton( "cBlueCell",    "Dark", buttonSize, 3, flag, false, 7 ) );        
+        typeList.add( getTypeButton( "cureBlueCell", "Dark", buttonSize, 0, flag, false, 7 ) );        
+
         JPanel typeRedPane = new JPanel();
         typeRedPane.setBackground( Color.BLACK );
         typeRedPane.setLayout( new GridLayout( 4, 1, 0, getTypeButtonSpace() ) );
-        final TypeButton aRed = new TypeButton( "aRedCell", buttonSize, 1, flag, true, 0 );
-        aRed.setIcon( new ButtonIcon( buttonSize ).getIcon( "aRedCellSelected" ) );
-        aRed.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e){ aRed.clicked(); } }); 
-        typeRedPane.add( aRed );
-        typeList.add( aRed );
-        final TypeButton bRed = new TypeButton( "bRedCell", buttonSize, 2, flag, true, 3 );
-        bRed.setIcon( new ButtonIcon( buttonSize ).getIcon( "bRedCell" ) );
-        bRed.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e){ bRed.clicked(); } });
-        typeRedPane.add( bRed );
-        typeList.add( bRed );
-        final TypeButton cRed = new TypeButton( "cRedCell", buttonSize, 3, flag, true, 7 );
-        cRed.setIcon( new ButtonIcon( buttonSize ).getIcon( "cRedCell" ) );
-        cRed.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e){ cRed.clicked(); } });
-        typeRedPane.add( cRed );
-        typeList.add( cRed );
-        final TypeButton cureRed = new TypeButton( "cureRedCell", buttonSize, 0, flag, true, 7 );
-        cureRed.setIcon( new ButtonIcon( buttonSize ).getIcon( "cureRedCell" ) );
-        cureRed.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e){ cureRed.clicked(); } });
-        typeRedPane.add( cureRed );
-        typeList.add( cureRed );
-        
         JPanel typeBluePane = new JPanel();
         typeBluePane.setBackground( Color.BLACK );
         typeBluePane.setLayout( new GridLayout( 4, 1, 0, getTypeButtonSpace() ) );
-        final TypeButton aBlue = new TypeButton( "aBlueCell", buttonSize, 1, flag, false, 0 );
-        aBlue.setIcon( new ButtonIcon( buttonSize ).getIcon( "aBlueCellDark" ) );
-        aBlue.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e){ aBlue.clicked(); } }); 
-        typeBluePane.add( aBlue );
-        typeList.add( aBlue );
-        final TypeButton bBlue = new TypeButton( "bBlueCell", buttonSize, 2, flag, false, 3 );
-        bBlue.setIcon( new ButtonIcon( buttonSize ).getIcon( "bBlueCellDark" ) );
-        bBlue.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e){ bBlue.clicked(); } });
-        typeBluePane.add( bBlue );
-        typeList.add( bBlue );
-        final TypeButton cBlue = new TypeButton( "cBlueCell", buttonSize, 3, flag, false, 7 );
-        cBlue.setIcon( new ButtonIcon( buttonSize ).getIcon( "cBlueCellDark" ) );
-        cBlue.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e){ cBlue.clicked(); } });
-        typeBluePane.add( cBlue );
-        typeList.add( cBlue );
-        final TypeButton cureBlue = new TypeButton( "cureBlueCell", buttonSize, 0, flag, false, 7 );
-        cureBlue.setIcon( new ButtonIcon( buttonSize ).getIcon( "cureBlueCellDark" ) );
-        cureBlue.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e){ cureBlue.clicked(); } });
-        typeBluePane.add( cureBlue );
-        typeList.add( cureBlue );
+
+        for( int i=0; i<typeList.size(); i++ )
+            if( i<4 )
+                typeRedPane.add( typeList.get( i ) );
+            else
+                typeBluePane.add( typeList.get ( i ) );
         
+        JPanel buttonPane = getButtonPane( flag );
+
+        flag.addTypeList( typeList );
+        flag.setButtonArray( buttonArray, ( numButtons * numButtons * 2 ) );
+        contentPane.add( typeRedPane );
+        contentPane.add( buttonPane );
+        contentPane.add( typeBluePane );
+        gameWindow.add( contentPane, BorderLayout.SOUTH );
+        setContentPane( gameWindow );
+        
+        pack();
+        setLocationByPlatform( false );
+        setVisible( true );
+        setResizable( false );
+    }
+    
+    private TypeButton getTypeButton( String name, String suffix, int size, int strength, TurnFlag flag, boolean turn, int cooldown ){
+        final TypeButton b = new TypeButton(name, size, strength, flag, turn, cooldown);
+        b.setIcon( new ButtonIcon( size ).getIcon( name + suffix ) );
+        b.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e){ b.clicked(); } });
+        return b;
+    }
+    
+    private JPanel getButtonPane( TurnFlag flag ){
         JPanel buttonPane = new JPanel();
         buttonPane.setBackground( Color.BLACK );
         buttonPane.setLayout( new GridLayout( numButtons, numButtons, 1, 1 ) );
@@ -113,16 +129,6 @@ public class Pathogen extends JFrame{
             }
 
         }
-
-        flag.addTypeList( typeList );
-        flag.setButtonArray( buttonArray, ( numButtons * numButtons * 2 ) );
-        contentPane.add( typeRedPane );
-        contentPane.add( buttonPane );
-        contentPane.add( typeBluePane );
-        setContentPane( contentPane );
-        pack();
-        setLocationByPlatform( false );
-        setVisible( true );
-        setResizable( false );
+        return buttonPane;
     }
 }
